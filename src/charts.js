@@ -17,7 +17,7 @@ export function drawBurdenChart(canvas, history=[]) {
   ctx.beginPath();ctx.moveTo(points[0].x,h-7);for(const p of points)ctx.lineTo(p.x,p.y);ctx.lineTo(points.at(-1).x,h-7);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
   ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.strokeStyle='#69e5d2';ctx.lineWidth=1.5;ctx.stroke();
   const p=points.at(-1);ctx.beginPath();ctx.arc(p.x,p.y,2.2,0,Math.PI*2);ctx.fillStyle='#d7fff7';ctx.fill();
-  ctx.fillStyle='rgba(141,169,167,.75)';ctx.font='8px system-ui';ctx.textAlign='left';ctx.fillText(`${Math.round(history[0].time)}d`,1,h-1);ctx.textAlign='right';ctx.fillText(`${Math.round(history.at(-1).time)}d`,w-1,h-1);
+  ctx.fillStyle='rgba(141,169,167,.75)';ctx.font='11px system-ui';ctx.textAlign='left';ctx.fillText(`${Math.round(history[0].time)}d`,1,h-1);ctx.textAlign='right';ctx.fillText(`${Math.round(history.at(-1).time)}d`,w-1,h-1);
 }
 
 export function drawSparkline(element, history=[]) {
