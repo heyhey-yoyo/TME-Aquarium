@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07141a" />
+  <meta name="description" content="TME Aquarium v1.1 是一个证据约束、可复现的肿瘤—免疫—间质生态教育模拟器。" />
+  <title>TME Aquarium v1.1｜肿瘤微环境生态缸</title>
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <noscript>此应用需要 JavaScript 才能运行。</noscript>
+  <div id="app" class="app-shell">
+    <header class="topbar glass">
+      <div class="brand-wrap">
+        <div class="brand-mark" aria-hidden="true"><span></span><i></i></div>
+        <div>
+          <div class="brand">TME Aquarium</div>
+          <div class="brand-sub">肿瘤微环境生态缸</div>
+        </div>
+      </div>
+
+      <div class="scenario-strip">
+        <label class="compact-field">
+          <span>生态场景</span>
+          <select id="scenarioSelect" aria-label="选择生态场景"></select>
+        </label>
+        <label class="compact-field seed-field">
+          <span>随机种子</span>
+          <input id="seedInput" value="TME-7FH2-K9P4" spellcheck="false" />
+        </label>
+        <button id="restartBtn" class="btn ghost" title="按当前设置重新开始">重新开始</button>
+      </div>
+
+      <div class="run-controls" aria-label="模拟控制">
+        <button id="stepBtn" class="icon-btn" title="前进一步">▹│</button>
+        <button id="playBtn" class="btn primary"><span class="play-symbol">▶</span><span>启动模拟</span></button>
+        <div class="speed-control">
+          <button data-speed="0.5">0.5×</button>
+          <button data-speed="1" class="active">1×</button>
+          <button data-speed="4">4×</button>
+          <button data-speed="16">16×</button>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <button id="saveBtn" class="icon-btn" title="保存到浏览器">保存</button>
+        <button id="loadBtn" class="icon-btn" title="恢复浏览器存档">恢复</button>
+        <button id="exportBtn" class="icon-btn" title="导出数据">导出</button>
+        <button id="helpBtn" class="icon-btn" title="模型说明">说明</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="left-panel panel glass" aria-label="控制面板">
+        <div class="panel-heading">
+          <div>
+            <span class="eyebrow">SANDBOX CONTROLS</span>
+            <h2>生态参数</h2>
+          </div>
+          <button id="resetParamsBtn" class="text-btn">恢复场景值</button>
+        </div>
+
+        <div class="control-section open">
+          <button class="section-toggle" aria-expanded="true"><span>环境与组织</span><i>⌄</i></button>
+          <div class="section-body">
+            <label class="range-row">
+              <span><b>血管供氧</b><small>氧气来源强度</small></span>
+              <output id="oxygenSupplyOut">76%</output>
+              <input id="oxygenSupply" type="range" min="20" max="120" value="76" />
+            </label>
+            <label class="range-row">
+              <span><b>基质密度</b><small>限制移动与药物穿透</small></span>
+              <output id="matrixDensityOut">42%</output>
+              <input id="matrixDensity" type="range" min="0" max="100" value="42" />
+            </label>
+            <label class="range-row">
+              <span><b>免疫抑制</b><small>降低 T 细胞活性</small></span>
+              <output id="suppressionOut">36%</output>
+              <input id="suppression" type="range" min="0" max="100" value="36" />
+            </label>
+          </div>
+        </div>
+
+        <div class="control-section open">
+          <button class="section-toggle" aria-expanded="true"><span>细胞生态</span><i>⌄</i></button>
+          <div class="section-body">
+            <label class="range-row">
+              <span><b>T 细胞浸润</b><small>从血管进入组织的相对频率</small></span>
+              <output id="tInfiltrationOut">44%</output>
+              <input id="tInfiltration" type="range" min="0" max="100" value="44" />
+            </label>
+            <label class="range-row">
+              <span><b>巨噬细胞募集</b><small>受损、坏死与低氧相关的相对募集强度</small></span>
+              <output id="macrophageRecruitmentOut">42%</output>
+              <input id="macrophageRecruitment" type="range" min="0" max="100" value="42" />
+            </label>
+            <label class="range-row">
+              <span><b>成纤维细胞活化</b><small>基质重塑与免疫排斥程序的相对强度</small></span>
+              <output id="fibroblastActivationOut">48%</output>
+              <input id="fibroblastActivation" type="range" min="0" max="100" value="48" />
+            </label>
+            <label class="range-row">
+              <span><b>性状漂移率</b><small>低概率产生克隆性状变化</small></span>
+              <output id="mutationRateOut">2.0×</output>
+              <input id="mutationRate" type="range" min="0" max="50" value="20" />
+            </label>
+          </div>
+        </div>
+
+        <div class="control-section open treatment-section">
+          <button class="section-toggle" aria-expanded="true"><span>治疗与实验工具</span><i>⌄</i></button>
+          <div class="section-body">
+            <div class="treatment-card chemo">
+              <div class="treatment-title"><span class="treat-icon">✦</span><div><b>细胞毒性治疗</b><small>对高增殖克隆更强</small></div></div>
+              <label class="dose-row"><span>剂量</span><input id="chemoDose" type="range" min="20" max="100" value="72" /><output id="chemoDoseOut">72%</output></label>
+              <button id="chemoBtn" class="btn treatment">施加药物脉冲</button>
+            </div>
+            <div class="tool-grid">
+              <button id="immuneBtn" class="tool-card"><span>⌁</span><b>免疫激活</b><small>短时降低耗竭影响</small></button>
+              <button id="oxygenBtn" class="tool-card"><span>◌</span><b>局部供氧</b><small>对画布中心补充氧气</small></button>
+              <button id="macrophageBtn" class="tool-card"><span>↺</span><b>巨噬细胞重编程</b><small>暂时推动连续功能轴向炎症支持侧移动</small></button>
+              <button id="stromaBtn" class="tool-card"><span>≋</span><b>基质正常化</b><small>降低过度沉积与排斥，不清除 CAF</small></button>
+            </div>
+            <div id="toxicityWrap" class="toxicity-wrap">
+              <div><span>累计毒性</span><b id="toxicityValue">0%</b></div>
+              <div class="meter"><i id="toxicityBar"></i></div>
+              <small>简化挑战指标，不代表真实临床毒性。</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="disclaimer-mini">
+          <span>教育模拟</span>
+          <p>不用于诊断、药物选择、剂量设计或患者预后预测。</p>
+        </div>
+      </aside>
+
+      <section class="center-stage" aria-label="生态缸模拟区">
+        <div class="stage-card glass">
+          <div class="stage-toolbar">
+            <div>
+              <span id="simDay" class="sim-day">第 0.0 天</span>
+              <span id="simStatus" class="status-pill paused">已暂停</span>
+            </div>
+            <div class="view-actions">
+              <button id="fitBtn" class="text-btn">重置视野</button>
+              <button id="screenshotBtn" class="text-btn">PNG 截图</button>
+              <button id="fullscreenBtn" class="text-btn">全屏</button>
+            </div>
+          </div>
+
+          <div id="canvasWrap" class="canvas-wrap">
+            <canvas id="simCanvas" aria-label="肿瘤微环境动态模拟画布"></canvas>
+            <div class="canvas-vignette"></div>
+            <div class="legend" id="legend"></div>
+            <div class="micro-status">
+              <span><i class="pulse-dot"></i><b id="entityCount">0</b> 动态实体</span>
+              <span><b id="fpsValue">—</b> FPS</span>
+            </div>
+            <div id="emptyPrompt" class="empty-prompt">
+              <div class="prompt-orbit"><i></i><i></i><i></i></div>
+              <h3>生态系统已就绪</h3>
+              <p>启动模拟，观察癌细胞、T 细胞、巨噬细胞与成纤维细胞共同塑造缺氧、基质屏障和治疗后生态重构。</p>
+              <button id="promptStartBtn" class="btn primary">启动默认剧本</button>
+            </div>
+            <div id="cellTooltip" class="cell-tooltip hidden"></div>
+          </div>
+
+          <div class="timeline-panel">
+            <div class="timeline-header">
+              <div><span class="eyebrow">ECOLOGICAL TIMELINE</span><b>关键事件时间轴</b></div>
+              <button id="clearEventsBtn" class="text-btn">清空显示</button>
+            </div>
+            <div id="timeline" class="timeline"></div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="right-panel panel glass" aria-label="指标与图层">
+        <div class="panel-heading compact">
+          <div><span class="eyebrow">LIVE READOUT</span><h2>生态指标</h2></div>
+          <span id="snapshotAge" class="snapshot-age">实时</span>
+        </div>
+
+        <div class="metric-grid">
+          <article class="metric-card featured"><span>活癌细胞</span><strong id="tumorMetric">—</strong><small id="tumorDelta">等待模拟</small><i class="metric-spark" id="tumorSpark"></i></article>
+          <article class="metric-card"><span>缺氧面积</span><strong id="hypoxiaMetric">—</strong><small>氧气 &lt; 24%</small></article>
+          <article class="metric-card"><span>T 细胞</span><strong id="tcellMetric">—</strong><small id="killMetric">0 次杀伤</small></article>
+          <article class="metric-card"><span>耐药克隆</span><strong id="resistantMetric">—</strong><small id="dominanceMetric">尚未主导</small></article>
+          <article class="metric-card"><span>巨噬细胞</span><strong id="macrophageMetric">—</strong><small id="macrophageStateMetric">连续功能轴待测</small></article>
+          <article class="metric-card"><span>成纤维细胞</span><strong id="fibroblastMetric">—</strong><small id="fibroblastStateMetric">活化比例待测</small></article>
+        </div>
+
+        <div class="chart-card">
+          <div class="card-title"><div><b>肿瘤负荷</b><small>活癌细胞数量</small></div><span id="chartRange">0–30 天</span></div>
+          <canvas id="burdenChart" height="132" aria-label="肿瘤负荷趋势图"></canvas>
+        </div>
+
+        <div class="chart-card clone-card">
+          <div class="card-title"><div><b>克隆构成</b><small>生态选择压力</small></div></div>
+          <div id="cloneBars" class="clone-bars"></div>
+        </div>
+
+        <div class="layers-card">
+          <div class="card-title"><div><b>观察图层</b><small>最多叠加一个环境热图</small></div></div>
+          <div class="layer-grid" role="radiogroup">
+            <button data-layer="cells" class="layer-btn active"><i class="layer-dot cells"></i>细胞生态</button>
+            <button data-layer="oxygen" class="layer-btn"><i class="layer-dot oxygen"></i>氧气</button>
+            <button data-layer="drug" class="layer-btn"><i class="layer-dot drug"></i>药物</button>
+            <button data-layer="matrix" class="layer-btn"><i class="layer-dot matrix"></i>基质</button>
+            <button data-layer="suppression" class="layer-btn"><i class="layer-dot suppression"></i>免疫抑制</button>
+            <button data-layer="inflammation" class="layer-btn"><i class="layer-dot inflammation"></i>炎症信号</button>
+            <button data-layer="angiogenic" class="layer-btn"><i class="layer-dot angiogenic"></i>血管支持</button>
+            <button data-layer="clones" class="layer-btn"><i class="layer-dot clones"></i>癌细胞克隆</button>
+          </div>
+        </div>
+
+        <div class="inspector-card" id="inspectorCard">
+          <div class="card-title"><div><b>单细胞检查器</b><small>点击画布中的细胞</small></div></div>
+          <div id="inspectorEmpty" class="inspector-empty">选择一个细胞，查看其类型、功能状态、局部环境和近期事件。</div>
+          <div id="inspectorContent" class="inspector-content hidden"></div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <input id="importFile" type="file" accept="application/json,.json" hidden />
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="exportDialog" class="modal">
+    <form method="dialog">
+      <div class="modal-head"><div><span class="eyebrow">EXPORT</span><h2>导出与分享</h2></div><button value="cancel" class="icon-btn">×</button></div>
+      <div class="export-grid">
+        <button type="button" data-export="png"><b>PNG 截图</b><small>当前生态缸画面</small></button>
+        <button type="button" data-export="csv"><b>CSV 指标</b><small>完整时间序列</small></button>
+        <button type="button" data-export="json"><b>JSON 存档</b><small>配置、细胞与环境</small></button>
+        <button type="button" data-export="import"><b>导入 JSON</b><small>恢复本地完整存档</small></button>
+        <button type="button" data-export="share"><b>复制分享码</b><small>场景、参数与随机种子</small></button>
+      </div>
+      <p class="modal-note">完整存档仅保存在本地或由你主动下载。应用不会上传模拟内容。</p>
+    </form>
+  </dialog>
+
+  <dialog id="helpDialog" class="modal help-modal">
+    <form method="dialog">
+      <div class="modal-head"><div><span class="eyebrow">MODEL GUIDE</span><h2>TME Aquarium 模型说明</h2></div><button value="cancel" class="icon-btn">×</button></div>
+      <div class="help-layout">
+        <nav>
+          <button type="button" data-help="how" class="active">如何观察</button>
+          <button type="button" data-help="rules">模型规则</button>
+          <button type="button" data-help="evidence">证据与文献</button>
+          <button type="button" data-help="limits">科学边界</button>
+          <button type="button" data-help="privacy">数据与隐私</button>
+        </nav>
+        <div id="helpContent" class="help-content"></div>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>

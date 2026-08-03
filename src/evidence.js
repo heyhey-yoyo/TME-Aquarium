@@ -1,0 +1,127 @@
+export const REFERENCES = [
+  {id:'THOMLINSON1955',authors:'Thomlinson RH, Gray LH',year:1955,title:'The histological structure of some human lung cancers and the possible implications for radiotherapy',journal:'British Journal of Cancer',pmid:'13304213',doi:'10.1038/bjc.1955.55'},
+  {id:'FREYER1988',authors:'Freyer JP',year:1988,title:'Role of necrosis in regulating the growth saturation of multicellular spheroids',journal:'Cancer Research',pmid:'3356007',doi:''},
+  {id:'DELARUE2014',authors:'Delarue M, et al.',year:2014,title:'Compressive stress inhibits proliferation in tumor spheroids through a volume limitation',journal:'Biophysical Journal',pmid:'25418163',doi:'10.1016/j.bpj.2014.08.031'},
+  {id:'KYLE2004',authors:'Kyle AH, et al.',year:2004,title:'Direct assessment of drug penetration into tissue using a novel application of three-dimensional cell culture',journal:'Cancer Research',pmid:'15342419',doi:'10.1158/0008-5472.CAN-04-1099'},
+  {id:'KYLE2007',authors:'Kyle AH, et al.',year:2007,title:'Limited tissue penetration of taxanes: a mechanism for resistance in solid tumors',journal:'Clinical Cancer Research',pmid:'17473214',doi:'10.1158/1078-0432.CCR-06-1941'},
+  {id:'BREART2008',authors:'Breart B, et al.',year:2008,title:'Two-photon imaging of intratumoral CD8+ T cell cytotoxic activity during adoptive T cell therapy in mice',journal:'Journal of Clinical Investigation',pmid:'18357341',doi:'10.1172/JCI34388'},
+  {id:'PHILIP2017',authors:'Philip M, et al.',year:2017,title:'Chromatin states define tumour-specific T cell dysfunction and reprogramming',journal:'Nature',pmid:'28514453',doi:'10.1038/nature22367'},
+  {id:'ENRIQUEZ2016',authors:'Enriquez-Navas PM, et al.',year:2016,title:'Exploiting evolutionary principles to prolong tumor control in preclinical models of breast cancer',journal:'Science Translational Medicine',pmid:'26912903',doi:'10.1126/scitranslmed.aad7842'},
+  {id:'HATA2016',authors:'Hata AN, et al.',year:2016,title:'Tumor cells can follow distinct evolutionary paths to become resistant to epidermal growth factor receptor inhibition',journal:'Nature Medicine',pmid:'26828195',doi:'10.1038/nm.4040'},
+  {id:'AZIZI2018',authors:'Azizi E, et al.',year:2018,title:'Single-Cell Map of Diverse Immune Phenotypes in the Breast Tumor Microenvironment',journal:'Cell',pmid:'29961579',doi:'10.1016/j.cell.2018.05.060'},
+  {id:'PERANZONI2018',authors:'Peranzoni E, et al.',year:2018,title:'Macrophages impede CD8 T cells from reaching tumor cells and limit the efficacy of anti-PD-1 treatment',journal:'PNAS',pmid:'29632196',doi:'10.1073/pnas.1720948115'},
+  {id:'CASAZZA2013',authors:'Casazza A, et al.',year:2013,title:'Impeding macrophage entry into hypoxic tumor areas by Sema3A/Nrp1 signaling blockade inhibits angiogenesis and restores antitumor immunity',journal:'Cancer Cell',pmid:'24332039',doi:'10.1016/j.ccr.2013.11.007'},
+  {id:'LIN2006',authors:'Lin EY, et al.',year:2006,title:'Macrophages regulate the angiogenic switch in a mouse model of breast cancer',journal:'Cancer Research',pmid:'17114237',doi:'10.1158/0008-5472.CAN-06-1278'},
+  {id:'SOKI2014',authors:'Soki FN, et al.',year:2014,title:'Polarization of prostate cancer-associated macrophages is induced by MFG-E8-mediated efferocytosis',journal:'Journal of Biological Chemistry',pmid:'25006249',doi:'10.1074/jbc.M114.571620'},
+  {id:'WERFEL2019',authors:'Werfel TA, et al.',year:2019,title:'Treatment-Induced Tumor Cell Apoptosis and Secondary Necrosis Drive Tumor Progression in the Residual Tumor Microenvironment through MerTK and IDO1',journal:'Cancer Research',pmid:'30413412',doi:'10.1158/0008-5472.CAN-18-1106'},
+  {id:'OHLUND2017',authors:'Öhlund D, et al.',year:2017,title:'Distinct populations of inflammatory fibroblasts and myofibroblasts in pancreatic cancer',journal:'Journal of Experimental Medicine',pmid:'28232471',doi:'10.1084/jem.20162024'},
+  {id:'BIFFI2019',authors:'Biffi G, et al.',year:2019,title:'IL1-Induced JAK/STAT Signaling Is Antagonized by TGFβ to Shape CAF Heterogeneity in Pancreatic Ductal Adenocarcinoma',journal:'Cancer Discovery',pmid:'30366930',doi:'10.1158/2159-8290.CD-18-0710'},
+  {id:'FEIG2013',authors:'Feig C, et al.',year:2013,title:'Targeting CXCL12 from FAP-expressing carcinoma-associated fibroblasts synergizes with anti-PD-L1 immunotherapy in pancreatic cancer',journal:'PNAS',pmid:'24277834',doi:'10.1073/pnas.1320318110'},
+  {id:'MARIATHASAN2018',authors:'Mariathasan S, et al.',year:2018,title:'TGFβ attenuates tumour response to PD-L1 blockade by contributing to exclusion of T cells',journal:'Nature',pmid:'29443960',doi:'10.1038/nature25501'},
+  {id:'SALMON2012',authors:'Salmon H, et al.',year:2012,title:'Matrix architecture defines the preferential localization and migration of T cells into the stroma of human lung tumors',journal:'Journal of Clinical Investigation',pmid:'22293174',doi:'10.1172/JCI45817'},
+  {id:'PROVENZANO2012',authors:'Provenzano PP, et al.',year:2012,title:'Enzymatic targeting of the stroma ablates physical barriers to treatment of pancreatic ductal adenocarcinoma',journal:'Cancer Cell',pmid:'22439937',doi:'10.1016/j.ccr.2012.01.007'},
+  {id:'RHIM2014',authors:'Rhim AD, et al.',year:2014,title:'Stromal elements act to restrain, rather than support, pancreatic ductal adenocarcinoma',journal:'Cancer Cell',pmid:'24856585',doi:'10.1016/j.ccr.2014.04.021'},
+  {id:'OZDEMIR2014',authors:'Özdemir BC, et al.',year:2014,title:'Depletion of carcinoma-associated fibroblasts and fibrosis induces immunosuppression and accelerates pancreas cancer with reduced survival',journal:'Cancer Cell',pmid:'24856586',doi:'10.1016/j.ccr.2014.04.005'},
+];
+
+export const MECHANISMS = [
+  {
+    id:'oxygen-gradients', title:'血管供氧、细胞消耗与扩散形成空间氧梯度', level:'人肿瘤组织观察 + 多细胞球实验',
+    evidence:'肿瘤组织和三维细胞球可形成从血管/外周向内部下降的供氧梯度，并伴随低增殖区和坏死核心。',
+    translation:'氧气从血管线段输入，在二维网格中扩散并被细胞消耗；长期低氧增加应激与坏死概率。',
+    caveat:'二维扩散、统一耗氧和“天”单位均是抽象；没有显式 HIF、灌注动力学或氧分压单位。', refs:['THOMLINSON1955','FREYER1988']
+  },
+  {
+    id:'space-crowding', title:'空间拥挤与机械限制抑制增殖', level:'三维肿瘤球直接实验支持',
+    evidence:'肿瘤球中的压缩应力和体积限制可降低核心增殖，外周保留更高增殖活性。',
+    translation:'癌细胞只有在邻域存在空位时分裂；高邻居数使其进入拥挤静息并降低周期推进。',
+    caveat:'网格占位不是组织力学模型，不计算压力张量、黏附、细胞形变或侵袭。', refs:['DELARUE2014']
+  },
+  {
+    id:'drug-penetration', title:'药物从血管进入并受距离与基质影响', level:'三维培养与异种移植直接测量',
+    evidence:'多种抗癌药在组织中的暴露会随离血管距离下降；部分药物在实体瘤中的穿透范围有限。',
+    translation:'药物由血管脉冲输入后扩散、衰减和被局部环境限制；高基质减慢扩散。',
+    caveat:'“细胞毒性治疗”是抽象类别，不对应任何具体药物、药代动力学、剂量或给药途径。', refs:['KYLE2004','KYLE2007','PROVENZANO2012']
+  },
+  {
+    id:'tcell-contact-killing', title:'T 细胞依赖迁移、接触与重复杀伤', level:'活体成像与单细胞观察',
+    evidence:'活体双光子成像可直接观察 CD8 T 细胞与肿瘤细胞稳定接触和细胞毒性事件。',
+    translation:'T 细胞移动寻找邻近癌细胞，接触后按识别、环境和功能状态计算杀伤；攻击消耗能量并可重复发生。',
+    caveat:'未显式模拟抗原呈递、TCR 克隆、免疫突触、穿孔素/颗粒酶或旁观者杀伤。', refs:['BREART2008']
+  },
+  {
+    id:'tcell-dysfunction', title:'持续肿瘤刺激和抑制环境降低 T 细胞功能', level:'动物肿瘤单细胞与表观遗传实验',
+    evidence:'肿瘤特异性 T 细胞可进入不同程度的功能障碍状态，部分早期状态具有可塑性，而深度功能障碍更难逆转。',
+    translation:'exhaustion 连续积累并降低激活、迁移和杀伤；免疫激活只能部分、短时缓解，不凭空增加浸润。',
+    caveat:'单一 exhaustion 数值压缩了多种功能障碍程序，不等同于临床检查点标志物或治疗反应。', refs:['PHILIP2017']
+  },
+  {
+    id:'clonal-selection', title:'治疗优先清除敏感细胞，改变克隆竞争与相对组成', level:'细胞/动物进化研究与预临床干预',
+    evidence:'耐药可由治疗前存在的亚克隆被选择，也可经药物耐受状态继续演化；保留敏感竞争者的进化策略在部分预临床模型中延长了控制。',
+    translation:'初始场景包含低比例耐受克隆及适应度代价；治疗后敏感克隆减少、空间释放，耐受克隆相对扩张。',
+    caveat:'模型不是适应治疗处方工具；克隆性状和竞争系数未按癌种或患者校准。', refs:['HATA2016','ENRIQUEZ2016']
+  },
+  {
+    id:'trait-drift', title:'性状漂移是可关闭的探索性简化，不是主要耐药来源', level:'模型假设，受肿瘤进化研究启发',
+    evidence:'真实耐药可来自预存遗传变异、获得性改变和非遗传可塑性；不同路径具有不同后续生物学。',
+    translation:'默认主要展示预存克隆的选择；低概率“性状漂移”只允许在高级参数中改变克隆身份。',
+    caveat:'该操作不能解释为某个具体突变发生，也不能据此估计突变率或耐药风险。', refs:['HATA2016']
+  },
+  {
+    id:'macrophage-continuum', title:'巨噬细胞采用连续功能轴，而非硬性 M1/M2 二分', level:'人体单细胞证据 + 模型抽象',
+    evidence:'肿瘤内髓系细胞呈现连续、混合且组织依赖的转录状态，经典标记并不总能形成互斥类别。',
+    translation:'每个巨噬细胞使用 activation ∈ [-1, 1]：负值偏炎症/免疫支持，正值偏免疫抑制/修复；局部缺氧、抑制信号、炎症与吞噬死亡细胞使该值连续变化。',
+    caveat:'该轴只压缩功能方向，不代表任何真实命名亚群，也不能映射到患者样本中的精确细胞比例。', refs:['AZIZI2018']
+  },
+  {
+    id:'macrophage-hypoxia', title:'缺氧区募集并重塑巨噬细胞功能', level:'动物模型直接实验支持',
+    evidence:'阻止巨噬细胞进入缺氧肿瘤区域可降低其促血管与免疫抑制功能，并改变肿瘤进展。',
+    translation:'巨噬细胞趋向坏死、炎症和低氧区域；持续低氧使功能轴向抑制/修复方向偏移，并产生有限的血管支持场。',
+    caveat:'模型没有显式模拟 Sema3A/Nrp1、HIF 或具体细胞因子，血管支持仅为定性反馈。', refs:['CASAZZA2013','LIN2006']
+  },
+  {
+    id:'macrophage-tcell', title:'巨噬细胞可构成 T 细胞进入与接触肿瘤细胞的障碍', level:'人组织相关 + 动物干预证据',
+    evidence:'部分肿瘤中，巨噬细胞富集与 CD8 T 细胞难以进入肿瘤巢相关；干预巨噬细胞可改善 T 细胞接触和抗 PD-1 反应。',
+    translation:'T 细胞附近的抑制型巨噬细胞形成局部 barrier 值，降低迁移速度、激活与杀伤概率。',
+    caveat:'这是空间和功能的合并抽象，不能解释为巨噬细胞在所有癌种中都产生同等程度的排斥。', refs:['PERANZONI2018']
+  },
+  {
+    id:'efferocytosis', title:'死亡细胞清除会改变炎症与巨噬细胞状态', level:'体外/动物模型直接实验支持',
+    evidence:'巨噬细胞吞噬凋亡肿瘤细胞可推动修复性、促肿瘤功能；治疗后的死亡细胞处理异常也可形成免疫抑制残余环境。',
+    translation:'巨噬细胞会清除邻近碎片；吞噬降低短期炎症，但增加 efferocytosisMemory，并使功能轴向抑制/修复方向移动。未及时清除的坏死碎片持续释放炎症。',
+    caveat:'模型不区分全部死亡方式、吞噬受体与下游代谢，只保留“清除—炎症消退—功能重塑”关系。', refs:['SOKI2014','WERFEL2019']
+  },
+  {
+    id:'caf-heterogeneity', title:'成纤维细胞保留多维功能，不做单一 CAF 开关', level:'类器官/动物模型及分子机制证据',
+    evidence:'CAF 可表现出空间和信号依赖的炎症型、肌成纤维样等不同程序，IL-1/JAK/STAT 与 TGFβ 等信号可塑造其状态。',
+    translation:'每个成纤维细胞独立保存 activation、matrixActivity 与 exclusionActivity；三者可不同步变化。',
+    caveat:'模型没有给细胞硬贴 iCAF/myCAF 标签，也未覆盖抗原呈递 CAF 等更多亚型。', refs:['OHLUND2017','BIFFI2019']
+  },
+  {
+    id:'caf-matrix', title:'成纤维细胞重塑基质，影响运动、灌注与药物可及性', level:'人组织观察 + 动物干预证据',
+    evidence:'肿瘤间质结构与 T 细胞定位和迁移有关；高间质压力与基质可限制灌注和药物到达，针对特定基质组分可改善递送。',
+    translation:'活化成纤维细胞在邻域沉积简化 matrix 场；该场降低 T 细胞移动并减慢药物扩散。',
+    caveat:'matrix 是胶原、透明质酸、纤连蛋白、力学与几何结构的合并量，不代表某一种 ECM 浓度。', refs:['SALMON2012','PROVENZANO2012']
+  },
+  {
+    id:'caf-exclusion', title:'CAF 相关信号可促进免疫排斥', level:'动物模型与临床样本关联证据',
+    evidence:'FAP+ CAF 来源的 CXCL12 以及成纤维细胞 TGFβ 程序与 T 细胞排斥和免疫治疗反应受限有关。',
+    translation:'exclusionActivity 提高局部 suppression，并与 matrix 一起降低 T 细胞进入和功能。',
+    caveat:'模型不把 CXCL12 或 TGFβ 当作唯一机制，也不预测检查点治疗疗效。', refs:['FEIG2013','MARIATHASAN2018']
+  },
+  {
+    id:'stroma-dual-role', title:'基质干预采用“正常化”而不是无限清除', level:'相互制约的动物模型证据',
+    evidence:'在胰腺癌模型中，某些基质成分可限制肿瘤；强力耗竭肌成纤维细胞/纤维化可能增加免疫抑制并加速疾病。',
+    translation:'“基质正常化”暂时降低过度沉积和免疫排斥，但不删除成纤维细胞，也设置下限，避免把全部间质清除定义为必然获益。',
+    caveat:'这些关键反例主要来自 PDAC，跨癌种推广必须谨慎；模拟只用于展示双向性。', refs:['RHIM2014','OZDEMIR2014']
+  },
+  {
+    id:'parameter-status', title:'所有数值系数均标注为未校准模型参数', level:'模型设计声明',
+    evidence:'文献支持的是机制方向和上下文依赖性，而不是本项目中每个归一化系数的具体数值。',
+    translation:'UI 显示 0–100 的相对强度；内部时间、浓度、概率和距离均为无量纲或模拟单位，并通过固定种子、边界测试与敏感性测试控制一致性。',
+    caveat:'不得把数值解释为患者浓度、细胞密度、药物剂量、真实天数或疗效概率。', refs:[]
+  },
+];
+
+export const referenceById = (id) => REFERENCES.find((reference) => reference.id === id);
+export const pubmedUrl = (reference) => `https://pubmed.ncbi.nlm.nih.gov/${reference.pmid}/`;
