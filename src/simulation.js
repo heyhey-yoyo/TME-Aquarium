@@ -9,7 +9,7 @@ const eightNeighbors = [
 ];
 
 /**
- * TME Aquarium v1.1 evidence-aware model.
+ * TME Aquarium v2.0 evidence-aware educational model.
  *
  * All numeric values are dimensionless, normalized simulation coefficients. They are
  * not clinical or experimentally calibrated constants. The scientific provenance for
@@ -62,12 +62,14 @@ export class Simulation {
     this.matrix = new Float32Array(this.size);
     this.suppression = new Float32Array(this.size);
     this.inflammation = new Float32Array(this.size);
+    this.chronicInflammation = new Float32Array(this.size);
     this.angiogenic = new Float32Array(this.size);
     this.occupancy = new Int32Array(this.size);
     this.tempA = new Float32Array(this.size);
     this.tempB = new Float32Array(this.size);
     this.tempC = new Float32Array(this.size);
     this.tempD = new Float32Array(this.size);
+    this.tempE = new Float32Array(this.size);
     this.initialize();
   }
 
@@ -132,6 +134,7 @@ export class Simulation {
         this.matrix[i] = clamp(baseMatrix * (0.52 + radial * 0.7 + noise));
         this.suppression[i] = clamp(baseSuppression * (0.35 + radial * 0.85 + noise * 0.5));
         this.inflammation[i] = clamp(0.015 + radial * 0.025);
+        this.chronicInflammation[i] = clamp(0.008 + radial * baseSuppression * 0.035);
         this.angiogenic[i] = 0;
         // Initialize a vessel-distance oxygen gradient instead of a uniformly anoxic tumor bed.
         // The length scale is a normalized teaching parameter, not a measured diffusion constant.
@@ -222,6 +225,8 @@ export class Simulation {
     const cell = {
       id: this.nextId++, type: 'tcell', x: point.x + this.rng.range(-1, 1), y: point.y + this.rng.range(-1, 1),
       energy: this.rng.range(0.72, 1), exhaustion: initial ? this.rng.range(0.03, 0.22) : this.rng.range(0, 0.08),
+      stemlike: initial ? this.rng.range(0.68, 0.96) : this.rng.range(0.82, 1),
+      terminalExhaustion: 0,
       activation: this.rng.range(0.62, 1), age: 0, kills: 0, state: '巡游', lastEvent: '由血管进入',
     };
     this.tCells.push(cell);
@@ -346,11 +351,13 @@ export class Simulation {
     }
     this.diffuse(this.oxygen, this.tempA, 0.18 * dt, 0.013 * dt, 0.52);
     this.diffuse(this.drug, this.tempB, 0.12 * dt, 0.075 * dt, 0.52);
-    this.diffuse(this.inflammation, this.tempC, 0.11 * dt, 0.035 * dt, 0.18);
+    this.diffuse(this.inflammation, this.tempC, 0.11 * dt, 0.052 * dt, 0.18);
+    this.diffuse(this.chronicInflammation, this.tempE, 0.045 * dt, 0.006 * dt, 0.24);
     this.diffuse(this.angiogenic, this.tempD, 0.07 * dt, 0.026 * dt, 0.22);
     [this.oxygen, this.tempA] = [this.tempA, this.oxygen];
     [this.drug, this.tempB] = [this.tempB, this.drug];
     [this.inflammation, this.tempC] = [this.tempC, this.inflammation];
+    [this.chronicInflammation, this.tempE] = [this.tempE, this.chronicInflammation];
     [this.angiogenic, this.tempD] = [this.tempD, this.angiogenic];
     for (let i = 0; i < this.size; i += 1) {
       const normalize = this.activeStromaNormalization > 0 ? 0.014 : 0;
@@ -359,7 +366,10 @@ export class Simulation {
       this.suppression[i] = clamp(this.suppression[i] + (baseSuppression * 0.35 - this.suppression[i]) * dt * 0.005);
       this.oxygen[i] = clamp(this.oxygen[i]);
       this.drug[i] = clamp(this.drug[i]);
+      const chronicDrive = this.inflammation[i] * (0.012 + this.suppression[i] * 0.018);
+      this.chronicInflammation[i] = clamp(this.chronicInflammation[i] + chronicDrive * dt - this.chronicInflammation[i] * dt * 0.004);
       this.inflammation[i] = clamp(this.inflammation[i]);
+      this.chronicInflammation[i] = clamp(this.chronicInflammation[i]);
       this.angiogenic[i] = clamp(this.angiogenic[i]);
     }
   }
@@ -403,6 +413,7 @@ export class Simulation {
       const matrix = this.matrix[i];
       this.oxygen[i] = Math.max(0, this.oxygen[i] - dt * 0.045 * profile.metabolicDemand);
       this.suppression[i] = clamp(suppression + dt * (0.0015 + (1-oxygen)*0.0018));
+      this.chronicInflammation[i] = clamp(this.chronicInflammation[i] + dt * (cell.stress * 0.0012 + suppression * 0.0005));
 
       // oxygenTolerance is a protective trait (higher means a lower oxygen requirement),
       // not a threshold that increases oxygen demand.
@@ -495,12 +506,19 @@ export class Simulation {
       t.age += dt;
       const localSuppression = this.fieldValue(this.suppression,t.x,t.y);
       const localMatrix = this.fieldValue(this.matrix,t.x,t.y);
+      const localOxygen = this.fieldValue(this.oxygen,t.x,t.y);
       const localInflammation = this.fieldValue(this.inflammation,t.x,t.y);
+      const localChronicInflammation = this.fieldValue(this.chronicInflammation,t.x,t.y);
+      const hypoxicStress = clamp((0.38 - localOxygen) / 0.38);
       const macrophageBarrier = this.macrophageBarrierAt(t.x,t.y);
       const immuneBoost = this.activeImmuneBoost > 0 ? 0.38 : 0;
-      t.exhaustion = clamp(t.exhaustion + dt * (0.008 + localSuppression * 0.035 + macrophageBarrier * 0.018) - dt * immuneBoost * 0.025);
-      t.energy = clamp(t.energy - dt * (0.006 + t.exhaustion * 0.012) + dt * localInflammation * 0.004);
-      t.activation = clamp(0.84 - t.exhaustion * 0.72 - localSuppression * 0.28 - macrophageBarrier * 0.22 + localInflammation * 0.08 + immuneBoost);
+      const exhaustionDrive = 0.006 + localSuppression * 0.036 + macrophageBarrier * 0.018 + localChronicInflammation * 0.05 + hypoxicStress * 0.012;
+      t.exhaustion = clamp(t.exhaustion + dt * exhaustionDrive - dt * immuneBoost * 0.018);
+      t.stemlike = clamp((t.stemlike ?? Math.max(0, 1-t.exhaustion)) - dt * (localChronicInflammation * 0.035 + t.exhaustion * 0.01 + hypoxicStress * 0.012) + dt * immuneBoost * 0.004);
+      const terminalTarget = clamp(((t.exhaustion - 0.28) / 0.72) * 0.75 + localChronicInflammation * 0.45 + hypoxicStress * 0.28 + localSuppression * 0.12 - t.stemlike * 0.18);
+      t.terminalExhaustion = clamp((t.terminalExhaustion ?? 0) + (terminalTarget - (t.terminalExhaustion ?? 0)) * dt * 0.22);
+      t.energy = clamp(t.energy - dt * (0.006 + t.exhaustion * 0.012 + t.terminalExhaustion * 0.008) + dt * localInflammation * 0.004);
+      t.activation = clamp(0.84 - t.exhaustion * 0.56 - t.terminalExhaustion * 0.38 - localSuppression * 0.28 - macrophageBarrier * 0.22 + localInflammation * 0.09 + immuneBoost);
       if (t.age > 18 + this.rng.range(-2,5) || t.energy <= 0.02 || this.rng.chance(dt * this.toxicity * 0.012)) continue;
       const target = this.nearestCancer(t.x,t.y,8.5);
       if (target && this.distance(t,target) < 1.7) {
@@ -512,6 +530,7 @@ export class Simulation {
           target.lastEvent = `受到 T 细胞 #${t.id} 攻击`;
           t.energy = clamp(t.energy - 0.08);
           t.exhaustion = clamp(t.exhaustion + 0.035);
+          t.stemlike = clamp(t.stemlike - 0.018);
           t.kills += target.health <= 0 ? 1 : 0;
           if (target.health <= 0) {
             this.cumulativeKills += 1;
@@ -526,7 +545,7 @@ export class Simulation {
         t.x = clamp(t.x + vector.x * speed + this.rng.range(-0.18,0.18), 0.5, this.width-1.5);
         t.y = clamp(t.y + vector.y * speed + this.rng.range(-0.18,0.18), 0.5, this.height-1.5);
         t.state = macrophageBarrier > 0.42 ? '巨噬细胞阻滞' : target ? '趋化' : '巡游';
-        t.lastEvent = t.exhaustion > 0.72 ? '明显耗竭' : t.state;
+        t.lastEvent = t.terminalExhaustion > 0.62 ? '终末耗竭偏高' : t.exhaustion > 0.72 ? '明显耗竭' : t.state;
       }
       survivors.push(t);
     }
@@ -545,10 +564,11 @@ export class Simulation {
       const oxygen = this.fieldValue(this.oxygen,m.x,m.y);
       const suppression = this.fieldValue(this.suppression,m.x,m.y);
       const inflammation = this.fieldValue(this.inflammation,m.x,m.y);
+      const chronicInflammation = this.fieldValue(this.chronicInflammation,m.x,m.y);
       const hypoxiaCue = clamp((0.3-oxygen)/0.3);
       const reprogramming = this.activeMacrophageReprogramming > 0 ? 0.85 : 0;
       const targetActivation = clamp(
-        hypoxiaCue * 0.62 + suppression * 0.52 + m.efferocytosisMemory * 0.75
+        hypoxiaCue * 0.58 + suppression * 0.48 + chronicInflammation * 0.26 + m.efferocytosisMemory * 0.75
         - inflammation * 0.45 - reprogramming,
         -1, 1,
       );
@@ -572,7 +592,9 @@ export class Simulation {
         }
         m.state = '吞噬清除';
       } else {
-        const target = debris || this.nearestCancer(m.x,m.y,10);
+        const cancerTarget = this.nearestCancer(m.x,m.y,10);
+        const hypoxiaTarget = this.hypoxiaGradientTarget(m.x,m.y);
+        const target = debris || (hypoxiaCue > 0.18 ? hypoxiaTarget : cancerTarget) || cancerTarget;
         const speed = dt * (0.65 + (1-this.fieldValue(this.matrix,m.x,m.y))*0.42);
         const vector = target ? this.directionTo(m,target) : {x:this.rng.range(-1,1),y:this.rng.range(-1,1)};
         m.x = clamp(m.x + vector.x * speed + this.rng.range(-0.11,0.11), 0.8, this.width-1.8);
@@ -644,6 +666,18 @@ export class Simulation {
     }
   }
 
+  hypoxiaGradientTarget(x,y) {
+    let best = { x, y };
+    let lowest = this.fieldValue(this.oxygen, x, y);
+    for (const [dx, dy] of eightNeighbors) {
+      const nx = clamp(x + dx * 2.2, 0.5, this.width - 1.5);
+      const ny = clamp(y + dy * 2.2, 0.5, this.height - 1.5);
+      const value = this.fieldValue(this.oxygen, nx, ny);
+      if (value < lowest) { lowest = value; best = { x: nx, y: ny }; }
+    }
+    return best;
+  }
+
   nearestCancer(x,y,maxDistance) {
     let best=null; let bestD=maxDistance*maxDistance;
     for (let n=0;n<this.cancer.length;n+=1) {
@@ -697,7 +731,10 @@ export class Simulation {
     const next=[];
     for (const d of this.debris) {
       d.age += dt; d.alpha = clamp(1 - d.age / (d.mode==='necrotic'?11:8));
-      if (d.mode==='necrotic') this.addFieldAt(this.inflammation,d.x,d.y,dt*0.0028,1.8);
+      if (d.mode==='necrotic') {
+        this.addFieldAt(this.inflammation,d.x,d.y,dt*0.0028,1.8);
+        this.addFieldAt(this.chronicInflammation,d.x,d.y,dt*0.0011,2.3);
+      }
       if (d.age < (d.mode==='necrotic'?11:8)) next.push(d);
     }
     this.debris=next;
@@ -751,37 +788,53 @@ export class Simulation {
       cloneCounts[c.cloneId]+=1;
       if (this.fieldValue(this.oxygen,c.x,c.y)<0.24) hypoxicCells+=1;
     }
-    let hypoxicArea=0, oxygenSum=0, drugSum=0, matrixSum=0, suppressionSum=0, inflammationSum=0, angiogenicSum=0;
+    let hypoxicArea=0, oxygenSum=0, drugSum=0, matrixSum=0, suppressionSum=0, inflammationSum=0, chronicInflammationSum=0, angiogenicSum=0;
+    let oxygenSqSum=0;
     for (let i=0;i<this.size;i+=1) {
-      oxygenSum+=this.oxygen[i]; drugSum+=this.drug[i]; matrixSum+=this.matrix[i];
-      suppressionSum+=this.suppression[i]; inflammationSum+=this.inflammation[i]; angiogenicSum+=this.angiogenic[i];
+      oxygenSum+=this.oxygen[i]; oxygenSqSum+=this.oxygen[i]*this.oxygen[i]; drugSum+=this.drug[i]; matrixSum+=this.matrix[i];
+      suppressionSum+=this.suppression[i]; inflammationSum+=this.inflammation[i]; chronicInflammationSum+=this.chronicInflammation[i]; angiogenicSum+=this.angiogenic[i];
       if (this.oxygen[i]<0.24) hypoxicArea+=1;
     }
     const count=this.cancer.length;
     const activeT=this.tCells.filter((t)=>t.activation>0.55).length;
     const exhaustedT=this.tCells.filter((t)=>t.exhaustion>0.65).length;
+    const terminalExhaustionLoad=this.tCells.length?this.tCells.reduce((sum,t)=>sum+(t.terminalExhaustion ?? 0),0)/this.tCells.length:0;
+    const stemlikeLoad=this.tCells.length?this.tCells.reduce((sum,t)=>sum+(t.stemlike ?? 0),0)/this.tCells.length:0;
     const suppressiveMac=this.macrophages.filter((m)=>m.activation>0.25).length;
     const inflammatoryMac=this.macrophages.filter((m)=>m.activation<-0.25).length;
     const meanMacActivation=this.macrophages.length?this.macrophages.reduce((s,m)=>s+m.activation,0)/this.macrophages.length:0;
     const activatedFibroblasts=this.fibroblasts.filter((f)=>f.activation>0.5).length;
     const meanCAFExclusion=this.fibroblasts.length?this.fibroblasts.reduce((s,f)=>s+f.activation*f.exclusionActivity,0)/this.fibroblasts.length:0;
+    const cloneFractions=cloneCounts.map((n)=>count? n/count:0);
+    const shannon=-cloneFractions.reduce((sum,p)=>sum+(p>0?p*Math.log(p):0),0);
+    const clonalDiversity=shannon/Math.log(3);
+    const meanOxygen=oxygenSum/this.size;
+    const oxygenVariance=Math.max(0,oxygenSqSum/this.size-meanOxygen*meanOxygen);
+    const necroticDebris=this.debris.filter((d)=>d.mode==='necrotic').length;
+    const immuneExclusionIndex=clamp((matrixSum/this.size)*0.42+(suppressionSum/this.size)*0.34+meanCAFExclusion*0.24);
     return {
       time:this.time,
       cancerCount:count,
       cloneCounts,
-      cloneFractions:cloneCounts.map((n)=>count? n/count:0),
+      cloneFractions,
+      clonalDiversity,
       resistantFraction:count?cloneCounts[1]/count:0,
       hypoxicFraction:hypoxicArea/this.size,
       hypoxicCellFraction:count?hypoxicCells/count:0,
-      averageOxygen:oxygenSum/this.size,
+      averageOxygen:meanOxygen,
+      perfusionHeterogeneity:clamp(Math.sqrt(oxygenVariance)/0.34),
       averageDrug:drugSum/this.size,
       averageMatrix:matrixSum/this.size,
       averageSuppression:suppressionSum/this.size,
       averageInflammation:inflammationSum/this.size,
+      averageChronicInflammation:chronicInflammationSum/this.size,
       averageAngiogenicSupport:angiogenicSum/this.size,
       tCellCount:this.tCells.length,
       activeTCellFraction:this.tCells.length?activeT/this.tCells.length:0,
       exhaustedTCellFraction:this.tCells.length?exhaustedT/this.tCells.length:0,
+      terminalExhaustedTCellFraction:terminalExhaustionLoad,
+      stemlikeTCellFraction:stemlikeLoad,
+      immuneExclusionIndex,
       macrophageCount:this.macrophages.length,
       meanMacrophageActivation:meanMacActivation,
       suppressiveMacrophageFraction:this.macrophages.length?suppressiveMac/this.macrophages.length:0,
@@ -793,6 +846,7 @@ export class Simulation {
       cumulativeKills:this.cumulativeKills,
       recentKills:this.recentKills,
       debrisCount:this.debris.length,
+      necroticDebrisFraction:this.debris.length?necroticDebris/this.debris.length:0,
       toxicity:this.toxicity,
     };
   }
@@ -809,7 +863,7 @@ export class Simulation {
   snapshot() {
     const metrics=this.computeMetrics();
     return {
-      version:2,
+      version:3,
       modelVersion:MODEL_VERSION,
       width:this.width,
       height:this.height,
@@ -832,10 +886,11 @@ export class Simulation {
       matrix:new Float32Array(this.matrix),
       suppression:new Float32Array(this.suppression),
       inflammation:new Float32Array(this.inflammation),
+      chronicInflammation:new Float32Array(this.chronicInflammation),
       angiogenic:new Float32Array(this.angiogenic),
       vessels:this.vessels,
       cancer:this.cancer.map((c)=>({...c, oxygen:this.fieldValue(this.oxygen,c.x,c.y), drug:this.fieldValue(this.drug,c.x,c.y)})),
-      tCells:this.tCells.map((t)=>({...t, suppression:this.fieldValue(this.suppression,t.x,t.y), matrix:this.fieldValue(this.matrix,t.x,t.y)})),
+      tCells:this.tCells.map((t)=>({...t, suppression:this.fieldValue(this.suppression,t.x,t.y), matrix:this.fieldValue(this.matrix,t.x,t.y), acuteInflammation:this.fieldValue(this.inflammation,t.x,t.y), chronicInflammation:this.fieldValue(this.chronicInflammation,t.x,t.y)})),
       macrophages:this.macrophages.map((m)=>({...m, oxygen:this.fieldValue(this.oxygen,m.x,m.y), suppression:this.fieldValue(this.suppression,m.x,m.y)})),
       fibroblasts:this.fibroblasts.map((f)=>({...f, matrix:this.fieldValue(this.matrix,f.x,f.y), suppression:this.fieldValue(this.suppression,f.x,f.y)})),
       debris:this.debris.map((d)=>({...d})),
@@ -844,7 +899,7 @@ export class Simulation {
 
   serialize() {
     return {
-      version:2,
+      version:3,
       modelVersion:MODEL_VERSION,
       scenarioId:this.scenario.id, seed:this.seed, params:{...this.params},
       time:this.time, tickCount:this.tickCount, nextId:this.nextId,
@@ -856,7 +911,7 @@ export class Simulation {
       maxPreTherapyCancer:this.maxPreTherapyCancer, therapyStarted:this.therapyStarted,
       flags:[...this.flags], events:this.events, history:this.history,
       oxygen:Array.from(this.oxygen), drug:Array.from(this.drug), matrix:Array.from(this.matrix), suppression:Array.from(this.suppression),
-      inflammation:Array.from(this.inflammation), angiogenic:Array.from(this.angiogenic),
+      inflammation:Array.from(this.inflammation), chronicInflammation:Array.from(this.chronicInflammation), angiogenic:Array.from(this.angiogenic),
       vessels:this.vessels, cancer:this.cancer, tCells:this.tCells, macrophages:this.macrophages, fibroblasts:this.fibroblasts, debris:this.debris,
       rngState:this.rng.state,
     };
@@ -878,8 +933,12 @@ export class Simulation {
     sim.flags=new Set(state.flags); sim.events=state.events; sim.history=state.history;
     sim.oxygen=Float32Array.from(state.oxygen); sim.drug=Float32Array.from(state.drug);
     sim.matrix=Float32Array.from(state.matrix); sim.suppression=Float32Array.from(state.suppression);
-    sim.inflammation=Float32Array.from(state.inflammation); sim.angiogenic=Float32Array.from(state.angiogenic);
-    sim.vessels=state.vessels; sim.cancer=state.cancer; sim.tCells=state.tCells; sim.debris=state.debris;
+    sim.inflammation=Float32Array.from(state.inflammation); sim.chronicInflammation=Float32Array.from(state.chronicInflammation); sim.angiogenic=Float32Array.from(state.angiogenic);
+    sim.vessels=state.vessels; sim.cancer=state.cancer; sim.tCells=state.tCells.map((t)=>({
+      ...t,
+      stemlike:t.stemlike ?? clamp(1-t.exhaustion*1.15),
+      terminalExhaustion:t.terminalExhaustion ?? clamp((t.exhaustion-0.45)/0.55),
+    })); sim.debris=state.debris;
     sim.macrophages=state.macrophages; sim.fibroblasts=state.fibroblasts;
 
     if (state.migratedFromVersion === 1) {
@@ -893,10 +952,10 @@ export class Simulation {
       sim.macrophages = legacyMacrophages.map((cell) => ({ ...cell, id: nextId++ }));
       sim.fibroblasts = legacyFibroblasts.map((cell) => ({ ...cell, id: nextId++ }));
       sim.nextId = nextId;
-      sim.migrationInfo = { fromVersion: 1, message: '已迁移 v1 存档，并按当前场景补入 v1.1 免疫与间质细胞。' };
+      sim.migrationInfo = { fromVersion: 1, message: '已迁移 v1 存档，并补入巨噬细胞、CAF 与 v2.0 免疫状态字段。' };
     } else {
       sim.nextId=state.nextId;
-      sim.migrationInfo = null;
+      sim.migrationInfo = state.migratedFromVersion ? { fromVersion: state.migratedFromVersion, message: `已将 v${state.migratedFromVersion} 存档迁移到 v2.0 模型。` } : null;
     }
     sim.rng.state=state.rngState>>>0;
     sim.rebuildOccupancy();

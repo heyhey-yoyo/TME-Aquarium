@@ -274,3 +274,145 @@ input[type="range"]::-webkit-slider-thumb { appearance:none; width:16px; height:
 .evidence-refs { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
 .evidence-refs a { color:var(--aqua-2); text-decoration:none; border:1px solid rgba(91,224,206,.18); border-radius:999px; padding:4px 8px; font-size:11px; line-height:1.3; }
 .evidence-refs a:hover { background:rgba(91,224,206,.08); border-color:rgba(91,224,206,.35); }
+
+/* v1.1.1 science communication and teaching layer */
+.science-badge {
+  display:inline-flex;
+  margin-top:5px;
+  padding:3px 7px;
+  border:1px solid rgba(255,187,115,.2);
+  border-radius:999px;
+  color:#ffd2a2;
+  background:rgba(255,187,115,.06);
+  font-size:12px;
+  font-weight:750;
+  letter-spacing:.06em;
+  white-space:nowrap;
+}
+.lesson-picker { display:flex; flex-direction:column; gap:6px; margin-bottom:8px; }
+.lesson-picker > span { color:var(--muted-2); font-size:12px; letter-spacing:.08em; }
+.lesson-picker select {
+  width:100%; height:38px; border:1px solid var(--line); border-radius:9px;
+  background:rgba(0,0,0,.19); color:var(--text); padding:0 9px; font-size:14px;
+}
+.lesson-card {
+  border:1px solid rgba(97,168,255,.17);
+  border-radius:13px;
+  padding:12px;
+  background:linear-gradient(145deg,rgba(97,168,255,.065),rgba(91,224,206,.03));
+}
+.lesson-kicker { color:#8fc2ff; font-size:12px; font-weight:800; letter-spacing:.1em; }
+.lesson-card h3 { margin:7px 0 5px; font-size:16px; }
+.lesson-card p { margin:0; color:var(--muted); font-size:13px; line-height:1.55; }
+.lesson-card ol { margin:9px 0; padding-left:18px; color:var(--muted); font-size:13px; line-height:1.55; }
+.lesson-readout {
+  margin:9px 0; padding:8px 9px; border-radius:8px; border-left:2px solid var(--aqua);
+  background:rgba(0,0,0,.14); color:var(--aqua-2); font-size:13px; line-height:1.45;
+}
+.btn.lesson-btn { width:100%; height:36px; color:#dff8ff; background:rgba(97,168,255,.1); border:1px solid rgba(97,168,255,.22); }
+.btn.lesson-btn:hover { background:rgba(97,168,255,.17); }
+.legend { max-width:calc(100% - 250px); flex-wrap:wrap; }
+.field-scale {
+  position:absolute; left:13px; top:55px; width:176px; padding:7px 9px;
+  background:rgba(3,12,16,.68); border:1px solid var(--line); border-radius:9px;
+  backdrop-filter:blur(10px); pointer-events:none;
+}
+.field-scale b { display:block; color:var(--text); font-size:12px; margin-bottom:5px; }
+.field-scale i { display:block; width:100%; height:7px; border-radius:99px; border:1px solid rgba(255,255,255,.08); }
+.field-scale span { display:flex; justify-content:space-between; margin-top:4px; color:var(--muted-2); font-size:11px; }
+.map-badge {
+  position:absolute; left:13px; bottom:12px; display:grid; grid-template-columns:auto auto; gap:1px 9px;
+  align-items:center; padding:8px 9px; border:1px solid var(--line); border-radius:9px;
+  background:rgba(3,12,16,.72); backdrop-filter:blur(10px); font-size:12px;
+}
+.map-badge b { color:var(--text); }
+.map-badge span { color:var(--muted-2); }
+.map-badge button {
+  grid-column:1/-1; margin-top:5px; height:28px; border:1px solid rgba(126,242,217,.18);
+  border-radius:6px; background:rgba(91,224,206,.06); color:var(--aqua-2); cursor:pointer; font-size:12px;
+}
+.metric-card small { line-height:1.35; }
+@media (max-width:1280px) { .science-badge { display:none; } }
+@media (max-width:760px) {
+  .field-scale { top:auto; bottom:56px; }
+  .map-badge { display:none; }
+  .legend { max-width:calc(100% - 24px); }
+}
+
+/* v2.0 research workbench, spatial probe and accessibility */
+.research-card {
+  border:1px solid rgba(91,224,206,.17); border-radius:13px; padding:12px;
+  background:linear-gradient(150deg,rgba(91,224,206,.06),rgba(97,168,255,.035));
+}
+.research-head { display:flex; flex-direction:column; gap:5px; }
+.research-head b { font-size:16px; }
+.research-card p { color:var(--muted); font-size:13px; line-height:1.55; margin:7px 0 10px; }
+.research-actions { display:grid; grid-template-columns:1fr auto; gap:7px; }
+.research-actions .btn { height:38px; }
+.note-field { display:flex; flex-direction:column; gap:5px; margin-top:10px; }
+.note-field span { color:var(--muted-2); font-size:12px; letter-spacing:.08em; }
+.note-field textarea {
+  width:100%; resize:vertical; min-height:62px; max-height:150px; border:1px solid var(--line); border-radius:9px;
+  background:rgba(0,0,0,.17); color:var(--text); padding:9px; font:inherit; font-size:13px; line-height:1.5;
+}
+.note-field textarea:focus-visible { outline:2px solid var(--aqua); outline-offset:2px; }
+.baseline-status { margin-top:8px; padding:7px 9px; border-radius:8px; background:rgba(0,0,0,.15); color:var(--aqua-2); font-size:12px; line-height:1.4; }
+.mission-board { margin-top:10px; border:1px solid var(--line); border-radius:12px; padding:10px; background:rgba(0,0,0,.1); }
+.mission-title { display:flex; align-items:center; justify-content:space-between; margin-bottom:7px; }
+.mission-title b { font-size:14px; }
+.mission-title span { color:var(--aqua); font-size:12px; font-variant-numeric:tabular-nums; }
+.mission-list { display:flex; flex-direction:column; gap:5px; }
+.mission-item { display:grid; grid-template-columns:18px 1fr; gap:7px; align-items:start; padding:6px; border-radius:8px; }
+.mission-item i { font-style:normal; color:var(--muted-2); font-size:14px; }
+.mission-item b { display:block; font-size:13px; }
+.mission-item small { display:block; color:var(--muted-2); font-size:11px; line-height:1.4; margin-top:2px; }
+.mission-item.done { background:rgba(109,227,165,.055); }
+.mission-item.done i, .mission-item.done b { color:var(--success); }
+
+.map-probe {
+  position:absolute; right:12px; top:54px; width:205px; padding:9px 10px; border:1px solid var(--line);
+  border-radius:10px; background:rgba(3,12,16,.78); backdrop-filter:blur(10px); pointer-events:auto;
+  box-shadow:0 12px 30px rgba(0,0,0,.22);
+}
+.map-probe > div { display:flex; align-items:center; justify-content:space-between; }
+.map-probe span { color:var(--aqua); font-size:12px; font-weight:800; letter-spacing:.08em; }
+.map-probe button { border:0; background:transparent; color:var(--muted); cursor:pointer; padding:0 2px; }
+.map-probe p { margin:6px 0 0; color:var(--muted-2); font-size:12px; line-height:1.45; }
+.map-probe > b { display:block; margin-top:6px; font-size:13px; }
+.map-probe dl { display:grid; grid-template-columns:1fr auto; gap:3px 8px; margin:7px 0 0; }
+.map-probe dt, .map-probe dd { margin:0; font-size:11px; }
+.map-probe dt { color:var(--muted-2); }
+.map-probe dd { color:var(--text); font-variant-numeric:tabular-nums; }
+
+.science-metric { border-color:rgba(97,168,255,.13); background:linear-gradient(150deg,rgba(97,168,255,.045),rgba(255,255,255,.018)); }
+.comparison-card { margin-top:9px; border:1px solid rgba(91,224,206,.14); border-radius:13px; padding:11px; background:rgba(0,0,0,.105); }
+.comparison-card .card-title { align-items:flex-start; }
+.comparison-card .card-title small { max-width:210px; }
+.comparison-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.comparison-empty { grid-column:1/-1; color:var(--muted-2); font-size:12px; line-height:1.5; padding:4px 0; }
+.comparison-item { border:1px solid var(--line); border-radius:9px; padding:7px; background:rgba(255,255,255,.018); }
+.comparison-item span { display:block; color:var(--muted-2); font-size:11px; }
+.comparison-item b { display:block; font-size:12px; margin-top:3px; font-variant-numeric:tabular-nums; }
+.comparison-item small { display:block; margin-top:3px; font-size:11px; }
+.comparison-item small.up { color:var(--orange); }
+.comparison-item small.down { color:var(--success); }
+.comparison-item small.flat { color:var(--muted); }
+.layer-dot.chronic { background:linear-gradient(135deg,#6f324c,#ffbd85); }
+
+body.color-vision-friendly { --pink:#d0a8df; --purple:#8d9fd6; --orange:#e7c77f; --danger:#d7a56f; }
+body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after {
+  animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important;
+}
+
+@media (max-width:1280px) {
+  .comparison-grid { grid-template-columns:1fr; }
+  .map-probe { width:184px; }
+}
+@media (max-width:1050px) {
+  .comparison-card { grid-column:auto; }
+  .map-probe { right:9px; top:51px; }
+}
+@media (max-width:760px) {
+  .map-probe { width:176px; right:7px; top:49px; }
+  .comparison-grid { grid-template-columns:1fr 1fr; }
+}

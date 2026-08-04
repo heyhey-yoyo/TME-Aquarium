@@ -6,6 +6,8 @@ export const REFERENCES = [
   {id:'KYLE2007',authors:'Kyle AH, et al.',year:2007,title:'Limited tissue penetration of taxanes: a mechanism for resistance in solid tumors',journal:'Clinical Cancer Research',pmid:'17473214',doi:'10.1158/1078-0432.CCR-06-1941'},
   {id:'BREART2008',authors:'Breart B, et al.',year:2008,title:'Two-photon imaging of intratumoral CD8+ T cell cytotoxic activity during adoptive T cell therapy in mice',journal:'Journal of Clinical Investigation',pmid:'18357341',doi:'10.1172/JCI34388'},
   {id:'PHILIP2017',authors:'Philip M, et al.',year:2017,title:'Chromatin states define tumour-specific T cell dysfunction and reprogramming',journal:'Nature',pmid:'28514453',doi:'10.1038/nature22367'},
+  {id:'MILLER2019',authors:'Miller BC, et al.',year:2019,title:'Subsets of exhausted CD8+ T cells differentially mediate tumor control and respond to checkpoint blockade',journal:'Nature Immunology',pmid:'30778252',doi:'10.1038/s41590-019-0312-6'},
+  {id:'SCHARPING2021',authors:'Scharping NE, et al.',year:2021,title:'Mitochondrial stress induced by continuous stimulation under hypoxia rapidly drives T cell exhaustion',journal:'Nature Immunology',pmid:'33398183',doi:'10.1038/s41590-020-00834-9'},
   {id:'ENRIQUEZ2016',authors:'Enriquez-Navas PM, et al.',year:2016,title:'Exploiting evolutionary principles to prolong tumor control in preclinical models of breast cancer',journal:'Science Translational Medicine',pmid:'26912903',doi:'10.1126/scitranslmed.aad7842'},
   {id:'HATA2016',authors:'Hata AN, et al.',year:2016,title:'Tumor cells can follow distinct evolutionary paths to become resistant to epidermal growth factor receptor inhibition',journal:'Nature Medicine',pmid:'26828195',doi:'10.1038/nm.4040'},
   {id:'AZIZI2018',authors:'Azizi E, et al.',year:2018,title:'Single-Cell Map of Diverse Immune Phenotypes in the Breast Tumor Microenvironment',journal:'Cell',pmid:'29961579',doi:'10.1016/j.cell.2018.05.060'},
@@ -29,7 +31,7 @@ export const MECHANISMS = [
     id:'oxygen-gradients', title:'血管供氧、细胞消耗与扩散形成空间氧梯度', level:'人肿瘤组织观察 + 多细胞球实验',
     evidence:'肿瘤组织和三维细胞球可形成从血管/外周向内部下降的供氧梯度，并伴随低增殖区和坏死核心。',
     translation:'氧气从血管线段输入，在二维网格中扩散并被细胞消耗；长期低氧增加应激与坏死概率。',
-    caveat:'二维扩散、统一耗氧和“天”单位均是抽象；没有显式 HIF、灌注动力学或氧分压单位。', refs:['THOMLINSON1955','FREYER1988']
+    caveat:'二维扩散、统一耗氧和“模拟日”均是抽象；低氧边界 0.24 只是可视化代理阈值，不对应某个固定 pO₂；没有显式 HIF 或灌注动力学。', refs:['THOMLINSON1955','FREYER1988']
   },
   {
     id:'space-crowding', title:'空间拥挤与机械限制抑制增殖', level:'三维肿瘤球直接实验支持',
@@ -50,10 +52,10 @@ export const MECHANISMS = [
     caveat:'未显式模拟抗原呈递、TCR 克隆、免疫突触、穿孔素/颗粒酶或旁观者杀伤。', refs:['BREART2008']
   },
   {
-    id:'tcell-dysfunction', title:'持续肿瘤刺激和抑制环境降低 T 细胞功能', level:'动物肿瘤单细胞与表观遗传实验',
-    evidence:'肿瘤特异性 T 细胞可进入不同程度的功能障碍状态，部分早期状态具有可塑性，而深度功能障碍更难逆转。',
-    translation:'exhaustion 连续积累并降低激活、迁移和杀伤；免疫激活只能部分、短时缓解，不凭空增加浸润。',
-    caveat:'单一 exhaustion 数值压缩了多种功能障碍程序，不等同于临床检查点标志物或治疗反应。', refs:['PHILIP2017']
+    id:'tcell-dysfunction', title:'持续刺激、低氧与抑制环境塑造不同 T 细胞功能状态', level:'动物肿瘤单细胞、功能与代谢实验',
+    evidence:'肿瘤内耗竭样 CD8 T 细胞并非单一终点；前体样与终末样亚群具有不同的增殖潜力、肿瘤控制能力和治疗响应。持续刺激与低氧共同作用还可加速功能障碍。',
+    translation:'v2.0 同时保存 stemlike、terminalExhaustion 与总体 exhaustion 三个代理维度。急性激活可短时支持效应功能，慢性炎症压力、持续接触和低氧推动终末化；免疫增强只能部分缓解，不会把终末状态瞬间重置。',
+    caveat:'三个归一化变量仍不是细胞谱系鉴定，也不对应 TCF1、PD-1、TIM-3 等真实标志物阈值；模型没有显式克隆追踪、淋巴结补给或表观遗传锁定。', refs:['PHILIP2017','MILLER2019','SCHARPING2021']
   },
   {
     id:'clonal-selection', title:'治疗优先清除敏感细胞，改变克隆竞争与相对组成', level:'细胞/动物进化研究与预临床干预',
@@ -71,13 +73,13 @@ export const MECHANISMS = [
     id:'macrophage-continuum', title:'巨噬细胞采用连续功能轴，而非硬性 M1/M2 二分', level:'人体单细胞证据 + 模型抽象',
     evidence:'肿瘤内髓系细胞呈现连续、混合且组织依赖的转录状态，经典标记并不总能形成互斥类别。',
     translation:'每个巨噬细胞使用 activation ∈ [-1, 1]：负值偏炎症/免疫支持，正值偏免疫抑制/修复；局部缺氧、抑制信号、炎症与吞噬死亡细胞使该值连续变化。',
-    caveat:'该轴只压缩功能方向，不代表任何真实命名亚群，也不能映射到患者样本中的精确细胞比例。', refs:['AZIZI2018']
+    caveat:'该一维轴只压缩功能方向；真实巨噬细胞状态是多维、组织依赖且可并存的，不能映射到命名亚群或患者样本中的精确细胞比例。', refs:['AZIZI2018']
   },
   {
     id:'macrophage-hypoxia', title:'缺氧区募集并重塑巨噬细胞功能', level:'动物模型直接实验支持',
     evidence:'阻止巨噬细胞进入缺氧肿瘤区域可降低其促血管与免疫抑制功能，并改变肿瘤进展。',
     translation:'巨噬细胞趋向坏死、炎症和低氧区域；持续低氧使功能轴向抑制/修复方向偏移，并产生有限的血管支持场。',
-    caveat:'模型没有显式模拟 Sema3A/Nrp1、HIF 或具体细胞因子，血管支持仅为定性反馈。', refs:['CASAZZA2013','LIN2006']
+    caveat:'模型没有显式模拟 Sema3A/Nrp1、HIF 或具体细胞因子；v2.0 只加入局部低氧梯度方向感知，并未解析完整趋化网络，血管支持仍是定性反馈。', refs:['CASAZZA2013','LIN2006']
   },
   {
     id:'macrophage-tcell', title:'巨噬细胞可构成 T 细胞进入与接触肿瘤细胞的障碍', level:'人组织相关 + 动物干预证据',
@@ -116,10 +118,16 @@ export const MECHANISMS = [
     caveat:'这些关键反例主要来自 PDAC，跨癌种推广必须谨慎；模拟只用于展示双向性。', refs:['RHIM2014','OZDEMIR2014']
   },
   {
+    id:'acute-chronic-inflammation', title:'急性激活信号与慢性炎症压力分场表示', level:'教学模型抽象',
+    evidence:'炎症在肿瘤中具有时间和情境依赖性：短时危险信号可促进募集与激活，而持续刺激、坏死负荷和代谢压力也可伴随免疫功能障碍与组织重塑。',
+    translation:'v2.0 将 inflammation 用作短程急性趋化/激活代理，将 chronicInflammation 用作较慢扩散、较慢消退的持续压力代理；二者对 T 细胞和髓系细胞产生不同方向的影响。',
+    caveat:'这两个场不是特定细胞因子浓度，也不能分别等同于“抗肿瘤炎症”和“促肿瘤炎症”；真实通路可交叉、转向并具有癌种差异。', refs:['WERFEL2019','SCHARPING2021']
+  },
+  {
     id:'parameter-status', title:'所有数值系数均标注为未校准模型参数', level:'模型设计声明',
     evidence:'文献支持的是机制方向和上下文依赖性，而不是本项目中每个归一化系数的具体数值。',
-    translation:'UI 显示 0–100 的相对强度；内部时间、浓度、概率和距离均为无量纲或模拟单位，并通过固定种子、边界测试与敏感性测试控制一致性。',
-    caveat:'不得把数值解释为患者浓度、细胞密度、药物剂量、真实天数或疗效概率。', refs:[]
+    translation:'UI 显示 0–100 或 a.u. 的相对强度；内部时间、场强、概率、阈值和距离均为无量纲或模拟单位，并通过固定种子、边界测试、场景审计与静态完整性检查控制一致性。',
+    caveat:'不得把数值解释为患者浓度、细胞密度、药物剂量、氧分压、真实天数、毒性等级、临床生物标志物或疗效概率；所有新指标仍是模型内部代理量。', refs:[]
   },
 ];
 

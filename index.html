@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#07141a" />
-  <meta name="description" content="TME Aquarium v1.1 是一个证据约束、可复现的肿瘤—免疫—间质生态教育模拟器。" />
-  <title>TME Aquarium v1.1｜肿瘤微环境生态缸</title>
+  <meta name="description" content="TME Aquarium v2.0 是一个可提出假设、建立基线、记录空间证据并比较干预结果的肿瘤微环境教学实验平台。" />
+  <title>TME Aquarium v2.0｜肿瘤微环境实验平台</title>
   <link rel="icon" href="./assets/icon.svg" type="image/svg+xml" />
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="stylesheet" href="./styles.css" />
@@ -19,6 +19,7 @@
         <div>
           <div class="brand">TME Aquarium</div>
           <div class="brand-sub">肿瘤微环境生态缸</div>
+          <div class="science-badge">v2.0 · 机制教学实验平台 · 参数未校准</div>
         </div>
       </div>
 
@@ -46,6 +47,8 @@
       </div>
 
       <div class="top-actions">
+        <button id="colorVisionBtn" class="icon-btn" title="切换色觉友好配色" aria-pressed="false">色觉</button>
+        <button id="motionBtn" class="icon-btn" title="减少动态效果" aria-pressed="false">动效</button>
         <button id="saveBtn" class="icon-btn" title="保存到浏览器">保存</button>
         <button id="loadBtn" class="icon-btn" title="恢复浏览器存档">恢复</button>
         <button id="exportBtn" class="icon-btn" title="导出数据">导出</button>
@@ -67,18 +70,18 @@
           <button class="section-toggle" aria-expanded="true"><span>环境与组织</span><i>⌄</i></button>
           <div class="section-body">
             <label class="range-row">
-              <span><b>血管供氧</b><small>氧气来源强度</small></span>
-              <output id="oxygenSupplyOut">76%</output>
+              <span><b>血管供氧强度</b><small>归一化来源项，不是氧分压</small></span>
+              <output id="oxygenSupplyOut">76 a.u.</output>
               <input id="oxygenSupply" type="range" min="20" max="120" value="76" />
             </label>
             <label class="range-row">
-              <span><b>基质密度</b><small>限制移动与药物穿透</small></span>
-              <output id="matrixDensityOut">42%</output>
+              <span><b>基质阻力</b><small>ECM/力学/几何的合并代理</small></span>
+              <output id="matrixDensityOut">42/100</output>
               <input id="matrixDensity" type="range" min="0" max="100" value="42" />
             </label>
             <label class="range-row">
-              <span><b>免疫抑制</b><small>降低 T 细胞活性</small></span>
-              <output id="suppressionOut">36%</output>
+              <span><b>抑制环境强度</b><small>多种抑制信号的合并代理</small></span>
+              <output id="suppressionOut">36/100</output>
               <input id="suppression" type="range" min="0" max="100" value="36" />
             </label>
           </div>
@@ -88,23 +91,23 @@
           <button class="section-toggle" aria-expanded="true"><span>细胞生态</span><i>⌄</i></button>
           <div class="section-body">
             <label class="range-row">
-              <span><b>T 细胞浸润</b><small>从血管进入组织的相对频率</small></span>
-              <output id="tInfiltrationOut">44%</output>
+              <span><b>T 细胞进入倾向</b><small>从血管进入组织的相对频率</small></span>
+              <output id="tInfiltrationOut">44/100</output>
               <input id="tInfiltration" type="range" min="0" max="100" value="44" />
             </label>
             <label class="range-row">
-              <span><b>巨噬细胞募集</b><small>受损、坏死与低氧相关的相对募集强度</small></span>
-              <output id="macrophageRecruitmentOut">42%</output>
+              <span><b>巨噬细胞募集倾向</b><small>受损、坏死与低氧相关的模型强度</small></span>
+              <output id="macrophageRecruitmentOut">42/100</output>
               <input id="macrophageRecruitment" type="range" min="0" max="100" value="42" />
             </label>
             <label class="range-row">
-              <span><b>成纤维细胞活化</b><small>基质重塑与免疫排斥程序的相对强度</small></span>
-              <output id="fibroblastActivationOut">48%</output>
+              <span><b>成纤维细胞活化倾向</b><small>基质重塑与排斥程序的模型强度</small></span>
+              <output id="fibroblastActivationOut">48/100</output>
               <input id="fibroblastActivation" type="range" min="0" max="100" value="48" />
             </label>
             <label class="range-row">
-              <span><b>性状漂移率</b><small>低概率产生克隆性状变化</small></span>
-              <output id="mutationRateOut">2.0×</output>
+              <span><b>性状漂移强度</b><small>探索性规则，不等于生物突变率</small></span>
+              <output id="mutationRateOut">40/100</output>
               <input id="mutationRate" type="range" min="0" max="50" value="20" />
             </label>
           </div>
@@ -114,20 +117,62 @@
           <button class="section-toggle" aria-expanded="true"><span>治疗与实验工具</span><i>⌄</i></button>
           <div class="section-body">
             <div class="treatment-card chemo">
-              <div class="treatment-title"><span class="treat-icon">✦</span><div><b>细胞毒性治疗</b><small>对高增殖克隆更强</small></div></div>
-              <label class="dose-row"><span>剂量</span><input id="chemoDose" type="range" min="20" max="100" value="72" /><output id="chemoDoseOut">72%</output></label>
-              <button id="chemoBtn" class="btn treatment">施加药物脉冲</button>
+              <div class="treatment-title"><span class="treat-icon">✦</span><div><b>抽象细胞毒性脉冲</b><small>教学用相对压力，对高增殖克隆更强</small></div></div>
+              <label class="dose-row"><span>相对强度</span><input id="chemoDose" type="range" min="20" max="100" value="72" /><output id="chemoDoseOut">72/100</output></label>
+              <button id="chemoBtn" class="btn treatment">施加模型脉冲</button>
             </div>
             <div class="tool-grid">
               <button id="immuneBtn" class="tool-card"><span>⌁</span><b>免疫激活</b><small>短时降低耗竭影响</small></button>
-              <button id="oxygenBtn" class="tool-card"><span>◌</span><b>局部供氧</b><small>对画布中心补充氧气</small></button>
+              <button id="oxygenBtn" class="tool-card"><span>◌</span><b>局部氧场提升</b><small>教学干预：提高中心归一化氧场</small></button>
               <button id="macrophageBtn" class="tool-card"><span>↺</span><b>巨噬细胞重编程</b><small>暂时推动连续功能轴向炎症支持侧移动</small></button>
               <button id="stromaBtn" class="tool-card"><span>≋</span><b>基质正常化</b><small>降低过度沉积与排斥，不清除 CAF</small></button>
             </div>
             <div id="toxicityWrap" class="toxicity-wrap">
-              <div><span>累计毒性</span><b id="toxicityValue">0%</b></div>
+              <div><span>系统代价（代理）</span><b id="toxicityValue">0%</b></div>
               <div class="meter"><i id="toxicityBar"></i></div>
-              <small>简化挑战指标，不代表真实临床毒性。</small>
+              <small>仅是模型中的代价变量，不对应不良反应发生率或临床毒性等级。</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-section open teaching-section">
+          <button class="section-toggle" aria-expanded="true"><span>科学观察任务</span><i>⌄</i></button>
+          <div class="section-body">
+            <label class="lesson-picker">
+              <span>选择引导实验</span>
+              <select id="lessonSelect">
+                <option value="hypoxia">实验 A · 血管距离与低氧核心</option>
+                <option value="exclusion">实验 B · 基质与免疫排斥</option>
+                <option value="selection">实验 C · 治疗与克隆选择</option>
+              </select>
+            </label>
+            <article class="lesson-card">
+              <span class="lesson-kicker">提出假设 → 操作变量 → 观察证据</span>
+              <h3 id="lessonTitle">血管距离与低氧核心</h3>
+              <p id="lessonHypothesis">假设：降低供氧强度后，远离血管的区域会先出现低氧代理信号。</p>
+              <ol id="lessonSteps"></ol>
+              <div id="lessonReadout" class="lesson-readout">等待模拟数据。</div>
+              <button id="applyLessonBtn" class="btn lesson-btn">应用实验设置</button>
+            </article>
+          </div>
+        </div>
+
+        <div class="control-section open research-section">
+          <button class="section-toggle" aria-expanded="true"><span>实验工作台</span><i>⌄</i></button>
+          <div class="section-body">
+            <article class="research-card">
+              <div class="research-head"><span class="lesson-kicker">BASELINE → INTERVENTION → INTERPRETATION</span><b>建立可比较的观察</b></div>
+              <p>先记录基线，再施加一个干预。比较结果只说明本次模型运行中的方向变化。</p>
+              <div class="research-actions">
+                <button id="captureBaselineBtn" class="btn lesson-btn">记录当前基线</button>
+                <button id="clearBaselineBtn" class="btn ghost">清除</button>
+              </div>
+              <label class="note-field"><span>实验备注</span><textarea id="experimentNote" rows="3" maxlength="500" placeholder="例如：提高供氧后，低氧边界是否收缩？"></textarea></label>
+              <div id="baselineStatus" class="baseline-status">尚未记录基线。</div>
+            </article>
+            <div class="mission-board">
+              <div class="mission-title"><b>研究任务</b><span id="missionProgress">0/4</span></div>
+              <div id="missionList" class="mission-list"></div>
             </div>
           </div>
         </div>
@@ -142,7 +187,7 @@
         <div class="stage-card glass">
           <div class="stage-toolbar">
             <div>
-              <span id="simDay" class="sim-day">第 0.0 天</span>
+              <span id="simDay" class="sim-day">模拟日 0.0</span>
               <span id="simStatus" class="status-pill paused">已暂停</span>
             </div>
             <div class="view-actions">
@@ -156,6 +201,12 @@
             <canvas id="simCanvas" aria-label="肿瘤微环境动态模拟画布"></canvas>
             <div class="canvas-vignette"></div>
             <div class="legend" id="legend"></div>
+            <div id="fieldScale" class="field-scale"></div>
+            <div class="map-badge"><b>空间代理图</b><span>模拟坐标 · 无物理尺度</span><button id="contourToggle" type="button">低氧边界：开</button></div>
+            <aside id="mapProbe" class="map-probe" aria-live="polite">
+              <div><span>空间探针</span><button id="clearProbeBtn" type="button" aria-label="清除空间探针">×</button></div>
+              <p>点击没有细胞的位置，读取该坐标的局部代理场。</p>
+            </aside>
             <div class="micro-status">
               <span><i class="pulse-dot"></i><b id="entityCount">0</b> 动态实体</span>
               <span><b id="fpsValue">—</b> FPS</span>
@@ -187,15 +238,23 @@
 
         <div class="metric-grid">
           <article class="metric-card featured"><span>活癌细胞</span><strong id="tumorMetric">—</strong><small id="tumorDelta">等待模拟</small><i class="metric-spark" id="tumorSpark"></i></article>
-          <article class="metric-card"><span>缺氧面积</span><strong id="hypoxiaMetric">—</strong><small>氧气 &lt; 24%</small></article>
+          <article class="metric-card"><span>低氧代理面积</span><strong id="hypoxiaMetric">—</strong><small>归一化氧场 &lt; 0.24（非 pO₂）</small></article>
           <article class="metric-card"><span>T 细胞</span><strong id="tcellMetric">—</strong><small id="killMetric">0 次杀伤</small></article>
           <article class="metric-card"><span>耐药克隆</span><strong id="resistantMetric">—</strong><small id="dominanceMetric">尚未主导</small></article>
           <article class="metric-card"><span>巨噬细胞</span><strong id="macrophageMetric">—</strong><small id="macrophageStateMetric">连续功能轴待测</small></article>
           <article class="metric-card"><span>成纤维细胞</span><strong id="fibroblastMetric">—</strong><small id="fibroblastStateMetric">活化比例待测</small></article>
+          <article class="metric-card science-metric"><span>克隆多样性</span><strong id="diversityMetric">—</strong><small>Shannon 指数归一化代理</small></article>
+          <article class="metric-card science-metric"><span>免疫排斥指数</span><strong id="exclusionMetric">—</strong><small>基质、抑制与 CAF 的组合代理</small></article>
+          <article class="metric-card science-metric"><span>T 细胞状态</span><strong id="tStateMetric">—</strong><small id="tStateDetail">前体样 / 终末耗竭代理</small></article>
+        </div>
+
+        <div class="comparison-card">
+          <div class="card-title"><div><b>基线比较</b><small>相同运行中的前后差异，不是因果效应估计</small></div><button id="exportLabReportBtn" class="text-btn">导出实验记录</button></div>
+          <div id="comparisonGrid" class="comparison-grid"><div class="comparison-empty">记录基线后，这里会显示关键指标变化。</div></div>
         </div>
 
         <div class="chart-card">
-          <div class="card-title"><div><b>肿瘤负荷</b><small>活癌细胞数量</small></div><span id="chartRange">0–30 天</span></div>
+          <div class="card-title"><div><b>肿瘤负荷</b><small>活癌细胞数量（模型计数）</small></div><span id="chartRange">模拟日 0–30</span></div>
           <canvas id="burdenChart" height="132" aria-label="肿瘤负荷趋势图"></canvas>
         </div>
 
@@ -205,14 +264,15 @@
         </div>
 
         <div class="layers-card">
-          <div class="card-title"><div><b>观察图层</b><small>最多叠加一个环境热图</small></div></div>
+          <div class="card-title"><div><b>观察图层</b><small>热图为归一化代理场；低氧边界可独立叠加</small></div></div>
           <div class="layer-grid" role="radiogroup">
             <button data-layer="cells" class="layer-btn active"><i class="layer-dot cells"></i>细胞生态</button>
             <button data-layer="oxygen" class="layer-btn"><i class="layer-dot oxygen"></i>氧气</button>
-            <button data-layer="drug" class="layer-btn"><i class="layer-dot drug"></i>药物</button>
+            <button data-layer="drug" class="layer-btn"><i class="layer-dot drug"></i>药物代理</button>
             <button data-layer="matrix" class="layer-btn"><i class="layer-dot matrix"></i>基质</button>
             <button data-layer="suppression" class="layer-btn"><i class="layer-dot suppression"></i>免疫抑制</button>
-            <button data-layer="inflammation" class="layer-btn"><i class="layer-dot inflammation"></i>炎症信号</button>
+            <button data-layer="inflammation" class="layer-btn"><i class="layer-dot inflammation"></i>急性炎症</button>
+            <button data-layer="chronicInflammation" class="layer-btn"><i class="layer-dot chronic"></i>慢性炎症压力</button>
             <button data-layer="angiogenic" class="layer-btn"><i class="layer-dot angiogenic"></i>血管支持</button>
             <button data-layer="clones" class="layer-btn"><i class="layer-dot clones"></i>癌细胞克隆</button>
           </div>
@@ -239,6 +299,7 @@
         <button type="button" data-export="json"><b>JSON 存档</b><small>配置、细胞与环境</small></button>
         <button type="button" data-export="import"><b>导入 JSON</b><small>恢复本地完整存档</small></button>
         <button type="button" data-export="share"><b>复制分享码</b><small>场景、参数与随机种子</small></button>
+        <button type="button" data-export="lab"><b>实验记录</b><small>基线、变化、备注与模型边界</small></button>
       </div>
       <p class="modal-note">完整存档仅保存在本地或由你主动下载。应用不会上传模拟内容。</p>
     </form>
@@ -250,6 +311,7 @@
       <div class="help-layout">
         <nav>
           <button type="button" data-help="how" class="active">如何观察</button>
+          <button type="button" data-help="lab">实验工作流</button>
           <button type="button" data-help="rules">模型规则</button>
           <button type="button" data-help="evidence">证据与文献</button>
           <button type="button" data-help="limits">科学边界</button>

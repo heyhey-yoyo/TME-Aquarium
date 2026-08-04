@@ -1,36 +1,42 @@
-TME Aquarium v1.1.0 release candidate
-Generated: 2026-08-03
-Runtime: static browser application; Node.js >=20 for local scripts/tests
+TME Aquarium v2.0.0 release manifest
+Release date: 2026-08-03
+Model version: 2.0.0; save format: v3
+Verification: 22/22 tests; scenario audit passed; static integrity audit passed.
+Browser note: headless Chromium smoke test was blocked by the container DBus/process environment.
+Files listed: 34
 
-Files:
-5c1bcc00d683bdabc8719c952374015d1b1a4ae29e8ac41f2d890650dc66b524  ./LICENSE
-d52976c08307a3334ae64314e409763faf94a6f9407419cb2beead98242f4326  ./README.md
-bb40bac10a71f0c111003235179e532cf6bb76c4fd0fa97935e9cb4f336f0e89  ./_headers
-6111e598a162aa99d2906f8e82f7dcdca2e86c75c17635eef2c132cba06e4a78  ./assets/icon.svg
-18c7e28960eb7c0ad51b4340af7d087f6ac69daa5cf14e2f8b7df0caa027677d  ./docs/references.bib
-d94328ad9d92d8401ad00f92dc2797c4b45c6ddf6fcc555e06054cdde878aede  ./docs/v1.1模型变更记录.md
-4dce7df7fe9f08ead6759f7b05d7f541f404bbdbf4cb909c815a232bf750d05c  ./docs/v1.1验证与发布说明.md
-8666ff5dd31da407da6a007dfa4ead3ad395e73dc8836f4bc5c80746e91cd724  ./docs/交接完成摘要.md
-0274c84795bf449454875ff03992d4c7363af43665d8ecb0ba32b69da930d6ea  ./docs/参考文献表.csv
-85b955fb9ddb6b0c4a03604617050ef8fa5dd36c045ec1386f67ee2ea9a6867f  ./docs/发布与回滚.md
-58b22d6df34e7d0149008e23a90b1e7c640f6fffc06cbb536e30ad88bbf379f5  ./docs/场景校准与敏感性审计.md
-a44e4dae87a75d811efd89283bc08269237b49a34cbc33d44ef620ed4b26552e  ./docs/机制证据矩阵.csv
-e90d5a2ce9090b1aad78b111a77c974bff724a743452e7c2122954824f2e3111  ./docs/科学依据与模型溯源.md
-0c4790716272207eceacee4f9a8a5b97cc3508a45d75c7d86fe97c2b322c0567  ./docs/项目企划原稿.md
-ac1b5b62da6d64c57091956d52ee53016bd6c5f0789e6d30721c1a461e815735  ./index.html
-39616c03616b4f0c6aed7f703dc63e60c9a838248be9771a8683d02d0f3c4f2a  ./manifest.webmanifest
-12f4ac172b5b907f85839885300536086fe5d2a85d246f69ad699de0ebc29cc8  ./package.json
-bb07a340adb2e6436f62aa70cb4037b27d88812e9781fdb1c8fe1131aacf7486  ./scripts/scenario-audit.mjs
-321a8c1b856ab2d3bd8de47c4b97b5dbdf8995a82da72fdabb208ec9fab62cbf  ./src/app.js
-c9ed4420aa6823ea2a207f8ed83780c6860886d33d2fdf8f6fb05252054d85c7  ./src/charts.js
-75f89179c87b59a286fe9e68dc0d0ff673040893a5666bfca749bcf97b579677  ./src/evidence.js
-b31a245bcdc731df5c1cc32517b39cbf79775f4c574c8802de15dc694362b7e6  ./src/renderer.js
-c445af555b2e59a3f9d12ac3ec72062f21b0df4c1d3ac046332b28ed46c99723  ./src/rng.js
-2d82030c9b0da53be5fb2e58a1bdac43b81f63ba2627059b578c921073ffcb24  ./src/scenarios.js
-8fc23fac82213358c9958ff00e85a5ea848b4904156234b2b68a009b6424c5d5  ./src/simulation.js
-121c0056871295a8c51284b3635d6fb6d4e8c18461364567814df7541f90aa6c  ./src/simulation.worker.js
-d711c049639b015a70316f2a87df84bee88ec10eecf1b60e846fe03358675490  ./src/state.js
-30c4e060233de6b259820c42aae6377b34d7a0a649a71b4c2bf7a43889faff8c  ./styles.css
-1d37764b57bed98db8899c89354617e9b03f31e052ea5b7c1ed6b1c52aae08f6  ./sw.js
-c8213351c9fbdbffc7b70f9fe1d2955e569496e3b66c864a55a023836a6ba008  ./tests/simulation.test.js
-84327a6d31aa420dd295b66400d1d05d25df4dc2c557fe2c78b3523f6653c793  ./tests/v1.1.test.js
+SHA-256  BYTES  PATH
+f847876ae7e5b342db6569c288459579231e9e9aaf3c20f1ffaf3396306fc612      2017  ./CHANGELOG_v2.0.md
+5c1bcc00d683bdabc8719c952374015d1b1a4ae29e8ac41f2d890650dc66b524      1082  ./LICENSE
+a455789be3cb01569f98db5dce918d21f95a794c5b8112d992c0611ff8f03231      3041  ./README.md
+d92b4342564bc059a2737b39949e1e62c7b5ebb0301994b42a1fb5568f23f11c      3633  ./SCIENCE_MODEL_NOTES_v2.0_zh-CN.md
+c45d2d1f54d69e3641e788089146f269ff67daaa423936ba0f2a1d283e622f77      1643  ./UPGRADE_GUIDE_v2.0_zh-CN.md
+bb40bac10a71f0c111003235179e532cf6bb76c4fd0fa97935e9cb4f336f0e89       683  ./_headers
+6111e598a162aa99d2906f8e82f7dcdca2e86c75c17635eef2c132cba06e4a78      1224  ./assets/icon.svg
+7187bbd00a5ac87c2c7e4147bc1ee43f99a97eb8a61ed7a4d0b4fbfe1bad34dc       867  ./docs/legacy-v1.1.1/CHANGELOG_SCIENCE_UI.md
+a69edf854fd8dc127752d9709bb4e47e8ef8339fd9cb1b98a33064d13e4332ef     14991  ./docs/legacy-v1.1.1/SCIENCE_UI_REVIEW_zh-CN.md
+91395fbd6476e52a2a0e5f16b48246388e108c2a48f4fc0bc4baac37b50d4279      6958  ./docs/references.bib
+9047c1bcc46af74ef6b2f6e6ce8d4476affae9ae7f9e6ee5b9aae1f59ca78f1d      6246  ./docs/参考文献_v2.0.csv
+cbd4cd4ea7b03a5af838fa5cad5f7f420110802aa8306c26ea51c3eb3f39b8c5      3242  ./docs/场景校准与敏感性审计.md
+df7e6a5e7bdad0f823bda3e8d030910b3d851ab46c684c5b20a1eab627e22c4a      9640  ./docs/机制证据登记_v2.0.csv
+ae7d1a47061fabaad625c008c1c974fe90dfd39c5ffef39f2e00b9ebf4027f79      1954  ./docs/验证报告_v2.0.md
+734cf9502b3dbca78876b958b1ffb49d8fa2665817a9313f5764ea6fe8c7a81d     19865  ./index.html
+9ae23c693dc404acfa6413c7f29bc551cb287c5ff0a176de419309a9abba780c       525  ./manifest.webmanifest
+5c8bb61449daf27a04ebe9c4fd5b37e9c759204169a26ab9d850affcd176b402       523  ./package.json
+f519ea95a5e4ad7fbc18f01472f7991a1aaec7146316ec3d538c84402e2d22f9      1882  ./scripts/export-evidence.mjs
+e101b94543b037defd847b987bea8191648ee16e32ca5f93a399f355b192a1a0      4906  ./scripts/scenario-audit.mjs
+a6fd33e5b403cc9e11dff06219e9fb46fb294a8e7cd84246ee9a652953d6c5f8      4633  ./scripts/static-audit.mjs
+9b168050bea86ecd87f6326cfbb6f6753327150122f04e417c84721c8c5554a7     48291  ./src/app.js
+1b91c9393509001ee3b09f51d43d5126afa807b52883aa09cdc8cd24bc87bae4      2346  ./src/charts.js
+f3cab167dd85f876a08e5fe51e36ebdfa081a0b7d92c8fbda0d9bc20d4d3c3c6     17302  ./src/evidence.js
+dc669808e56cc687455363d23637b2b50159839f48c557a649595475232c972d     15453  ./src/renderer.js
+c445af555b2e59a3f9d12ac3ec72062f21b0df4c1d3ac046332b28ed46c99723      1355  ./src/rng.js
+2d82030c9b0da53be5fb2e58a1bdac43b81f63ba2627059b578c921073ffcb24      6928  ./src/scenarios.js
+ebaba5aa6567bbbfa9fd30433fae6ec86f2c15721c65c539a0f78556094eb02b     47754  ./src/simulation.js
+121c0056871295a8c51284b3635d6fb6d4e8c18461364567814df7541f90aa6c      3830  ./src/simulation.worker.js
+cfc550258a865698efddfc0aa6c433f54680d02c1818a0898a108b1bc00103b3     14076  ./src/state.js
+40deb99bba44b59e945f891ce2419a01385b5d75bf9d26b54501164ef430786f     31333  ./styles.css
+adb98a9386f9308043350d98ebc3af6d0f62fc8c5da140097db4bfc3eb3fcea2      1408  ./sw.js
+c8213351c9fbdbffc7b70f9fe1d2955e569496e3b66c864a55a023836a6ba008      1768  ./tests/simulation.test.js
+84327a6d31aa420dd295b66400d1d05d25df4dc2c557fe2c78b3523f6653c793      9233  ./tests/v1.1.test.js
+a8b84e120c534b5ea7f5a71fd72103a5da6906054885e0aa0942640479139ac8      4656  ./tests/v2.0.test.js

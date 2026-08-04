@@ -1,7 +1,7 @@
 import { SCENARIOS, getScenario } from './scenarios.js';
 
-export const SAVE_VERSION = 2;
-export const MODEL_VERSION = '1.1.0';
+export const SAVE_VERSION = 3;
+export const MODEL_VERSION = '2.0.0';
 export const GRID_WIDTH = 96;
 export const GRID_HEIGHT = 60;
 export const GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
@@ -105,6 +105,8 @@ function validateTCells(list, ids) {
     validateCoordinates(cell, `tCells[${index}]`);
     finite(cell.energy, `tCells[${index}].energy`, 0, 1.1);
     finite(cell.exhaustion, `tCells[${index}].exhaustion`, 0, 1);
+    cell.stemlike = finite(cell.stemlike ?? Math.max(0, 1 - cell.exhaustion * 1.15), `tCells[${index}].stemlike`, 0, 1);
+    cell.terminalExhaustion = finite(cell.terminalExhaustion ?? Math.max(0, (cell.exhaustion - 0.45) / 0.55), `tCells[${index}].terminalExhaustion`, 0, 1);
     finite(cell.activation, `tCells[${index}].activation`, 0, 1.2);
     finite(cell.age, `tCells[${index}].age`, 0, 100000);
     integer(cell.kills, `tCells[${index}].kills`, 0, 1000000);
@@ -231,7 +233,7 @@ export function validateSimulationConfig(input = {}) {
 export function validateAndMigrateState(input) {
   requireObject(input, '存档');
   const sourceVersion = integer(input.version ?? 1, 'version', 1, SAVE_VERSION);
-  if (![1, 2].includes(sourceVersion)) throw new TypeError(`不支持的存档版本：${sourceVersion}`);
+  if (![1, 2, 3].includes(sourceVersion)) throw new TypeError(`不支持的存档版本：${sourceVersion}`);
   const migratedFromVersion = input.migratedFromVersion == null
     ? (sourceVersion < SAVE_VERSION ? sourceVersion : null)
     : integer(input.migratedFromVersion, 'migratedFromVersion', 1, SAVE_VERSION - 1);
@@ -282,6 +284,7 @@ export function validateAndMigrateState(input) {
     matrix: validateField(input.matrix, 'matrix'),
     suppression: validateField(input.suppression, 'suppression'),
     inflammation: validateField(input.inflammation, 'inflammation', { required: sourceVersion >= 2 }),
+    chronicInflammation: validateField(input.chronicInflammation, 'chronicInflammation', { required: sourceVersion >= 3 }),
     angiogenic: validateField(input.angiogenic, 'angiogenic', { required: sourceVersion >= 2 }),
     vessels,
     cancer,

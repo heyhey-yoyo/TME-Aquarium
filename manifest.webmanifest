@@ -1,7 +1,7 @@
 {
-  "name": "TME Aquarium v1.1｜肿瘤微环境生态缸",
+  "name": "TME Aquarium v2.0｜肿瘤微环境实验平台",
   "short_name": "TME Aquarium",
-  "description": "证据约束、可重复的二维肿瘤—免疫—间质生态教育模拟器。",
+  "description": "可建立基线、读取空间代理场并比较干预结果的肿瘤—免疫—间质生态教学实验平台。",
   "lang": "zh-CN",
   "start_url": "./",
   "scope": "./",
@@ -9,6 +9,11 @@
   "background_color": "#051015",
   "theme_color": "#07141a",
   "icons": [
-    { "src": "./assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    {
+      "src": "./assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
   ]
 }
