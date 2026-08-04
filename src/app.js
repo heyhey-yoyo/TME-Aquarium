@@ -852,11 +852,6 @@ $('resetParamsBtn').addEventListener('click', () => {
 });
 $('playBtn').addEventListener('click', () => toggleRun());
 $('promptStartBtn').addEventListener('click', startDefaultScript);
-$('stepBtn').addEventListener('click', () => {
-  if (isRunning) toggleRun(false);
-  worker.postMessage({ type: 'step' });
-  $('emptyPrompt').classList.add('hide');
-});
 document.querySelectorAll('[data-speed]').forEach((button) => button.addEventListener('click', () => {
   currentSpeed = Number(button.dataset.speed);
   worker.postMessage({ type: 'speed', value: currentSpeed });
