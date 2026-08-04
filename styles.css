@@ -27,6 +27,10 @@ body { overflow: hidden; }
 button, input, select { font: inherit; }
 button { color: inherit; }
 button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--aqua); outline-offset: 2px; }
+select { cursor: pointer; }
+select option, select optgroup { background-color: #0c1d23; color: var(--text); }
+select option:disabled { color: var(--muted-2); }
+select option:checked { background-color: rgba(91,224,206,.16); color: var(--aqua-2); }
 .hidden { display: none !important; }
 .glass { background: linear-gradient(155deg, rgba(14,38,44,.91), rgba(6,19,25,.87)); border: 1px solid var(--line); box-shadow: var(--shadow); backdrop-filter: blur(18px); }
 .app-shell { height: 100vh; min-height: 720px; padding: 12px; background:
@@ -46,7 +50,18 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .compact-field { display:flex; flex-direction:column; gap:4px; min-width:0; }
 .compact-field span { font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); }
 .compact-field select, .compact-field input { height:38px; color:var(--text); border:1px solid var(--line); border-radius:9px; background:rgba(0,0,0,.2); padding:0 10px; font-size:14px; }
-.compact-field select { width:200px; }
+.compact-field select {
+  width:200px;
+  appearance:none;
+  padding-right:30px;
+  background-color:rgba(6,20,26,.92);
+  background-image:linear-gradient(45deg, transparent 50%, var(--muted-2) 50%), linear-gradient(135deg, var(--muted-2) 50%, transparent 50%);
+  background-position:calc(100% - 16px) 50%, calc(100% - 11px) 50%;
+  background-size:5px 5px, 5px 5px;
+  background-repeat:no-repeat;
+}
+.compact-field select:hover { border-color:var(--line-strong); background-color:rgba(9,28,35,.95); }
+.compact-field select:focus-visible { border-color:var(--aqua); }
 .seed-field input { width:165px; font-variant-numeric:tabular-nums; }
 .btn, .icon-btn, .text-btn { border:0; cursor:pointer; transition:.2s ease; }
 .btn { height:40px; border-radius:10px; padding:0 16px; display:inline-flex; align-items:center; justify-content:center; gap:8px; font-weight:680; font-size:14px; }
@@ -128,10 +143,16 @@ input[type="range"]::-webkit-slider-thumb { appearance:none; width:16px; height:
 .micro-status b { color:var(--text); font-variant-numeric:tabular-nums; }
 .pulse-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--success); margin-right:4px; box-shadow:0 0 0 0 rgba(109,227,165,.4); animation:pulse 1.8s infinite; }
 @keyframes pulse { 70% { box-shadow:0 0 0 6px rgba(109,227,165,0); } 100% { box-shadow:0 0 0 0 rgba(109,227,165,0); } }
-.empty-prompt { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:min(420px,75%); text-align:center; transition:.35s; }
+.empty-prompt {
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:min(440px,76%); text-align:center; transition:.35s;
+  background:linear-gradient(160deg, rgba(12,32,39,.88), rgba(5,17,22,.82));
+  border:1px solid var(--line-strong); border-radius:16px; padding:22px 26px;
+  box-shadow:0 24px 70px rgba(0,0,0,.5); backdrop-filter:blur(12px);
+}
 .empty-prompt.hide { opacity:0; pointer-events:none; transform:translate(-50%,-47%); }
-.empty-prompt h3 { margin:18px 0 6px; font-size:22px; }
-.empty-prompt p { color:var(--muted); font-size:14px; line-height:1.65; margin:0 auto 15px; max-width:360px; }
+.empty-prompt h3 { margin:18px 0 8px; font-size:23px; color:#f2fffc; letter-spacing:.03em; text-shadow:0 0 22px rgba(91,224,206,.35), 0 2px 12px rgba(0,0,0,.6); }
+.empty-prompt p { color:var(--muted); font-size:14px; line-height:1.7; margin:0 auto 16px; max-width:360px; }
 .prompt-orbit { width:88px; height:88px; margin:auto; border:1px solid rgba(91,224,206,.2); border-radius:50%; position:relative; animation:rotate 12s linear infinite; box-shadow:inset 0 0 30px rgba(91,224,206,.06); }
 .prompt-orbit::before { content:""; position:absolute; inset:15px; border:1px dashed rgba(174,132,255,.24); border-radius:50%; }
 .prompt-orbit i { position:absolute; width:12px; height:12px; border-radius:48% 52% 60% 40%; background:var(--pink); box-shadow:0 0 14px rgba(255,127,174,.45); }
@@ -293,8 +314,15 @@ input[type="range"]::-webkit-slider-thumb { appearance:none; width:16px; height:
 .lesson-picker > span { color:var(--muted-2); font-size:12px; letter-spacing:.08em; }
 .lesson-picker select {
   width:100%; height:38px; border:1px solid var(--line); border-radius:9px;
-  background:rgba(0,0,0,.19); color:var(--text); padding:0 9px; font-size:14px;
+  background-color:rgba(6,20,26,.92); color:var(--text); padding:0 9px 0 10px; font-size:14px;
+  appearance:none; padding-right:30px; cursor:pointer;
+  background-image:linear-gradient(45deg, transparent 50%, var(--muted-2) 50%), linear-gradient(135deg, var(--muted-2) 50%, transparent 50%);
+  background-position:calc(100% - 16px) 50%, calc(100% - 11px) 50%;
+  background-size:5px 5px, 5px 5px;
+  background-repeat:no-repeat;
 }
+.lesson-picker select:hover { border-color:var(--line-strong); }
+.lesson-picker select:focus-visible { border-color:var(--aqua); }
 .lesson-card {
   border:1px solid rgba(97,168,255,.17);
   border-radius:13px;
