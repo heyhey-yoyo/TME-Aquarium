@@ -1,6 +1,6 @@
 {
   "name": "tme-aquarium",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "description": "离线优先的肿瘤微环境机制教学与实验平台",

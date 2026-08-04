@@ -1,4 +1,4 @@
-# AGENTS.md — TME Aquarium v2.0 项目开发指南
+# AGENTS.md — TME Aquarium v1.0 项目开发指南
 
 本文档为 AI 编码助手与贡献者提供项目的约束、架构、约定和验证流程。修改代码前请先阅读本节。
 
@@ -11,8 +11,8 @@ TME Aquarium 是一个**离线优先、可复现的肿瘤微环境（TME）机�
 - 任何机制规则必须能在 `src/evidence.js` 中找到证据登记（`MECHANISMS`），包括证据层级、模型翻译与边界（`caveat`）。
 - 修改模型行为或新增机制时，必须同时更新：
   - `src/evidence.js`（机制登记 + 参考文献 `REFERENCES`）
-  - `docs/机制证据登记_v2.0.csv`、`docs/参考文献_v2.0.csv`、`docs/references.bib`（用 `npm run evidence` 重新生成）
-  - 相关教学文档（`README.md`、`CHANGELOG_v2.0.md`、`SCIENCE_MODEL_NOTES_v2.0_zh-CN.md`）
+  - `docs/机制证据登记_v1.0.csv`、`docs/参考文献_v1.0.csv`、`docs/references.bib`（用 `npm run evidence` 重新生成）
+  - 相关教学文档（`README.md`、`CHANGELOG_v1.0.md`、`SCIENCE_MODEL_NOTES_v1.0_zh-CN.md`）
 
 ## 2. 技术栈与运行方式
 
@@ -61,13 +61,13 @@ app.js <--postMessage(snapshot)-- worker <-- Simulation.snapshot()
 - 网格：`96 × 60`（见 `state.js` 的 `GRID_WIDTH` / `GRID_HEIGHT`）。
 - 空间场（`Float32Array`，按行主序）：`oxygen / drug / matrix / suppression / inflammation / chronicInflammation / angiogenic`。
 - 细胞主体：`cancer / tCells / macrophages / fibroblasts / debris / vessels`，坐标 `x,y`。
-- T 细胞 v2 三维状态：`stemlike`（前体样）、`terminalExhaustion`（终末耗竭样）、`exhaustion`（总功能障碍）——均为连续代理变量，**不要**把它们当流式分群比例。
+- T 细胞三维状态：`stemlike`（前体样）、`terminalExhaustion`（终末耗竭样）、`exhaustion`（总功能障碍）——均为连续代理变量，**不要**把它们当流式分群比例。
 - 克隆（`CLONES`）：敏感型 / 耐药型 / 缺氧型，决定增殖、耐药、缺氧耐受与免疫逃逸差异。
 - 指标：`cancerCount`、`hypoxicFraction`、`clonalDiversity`、`immuneExclusionIndex`、`terminalExhaustedTCellFraction`、`averageChronicInflammation`、`macrophageCount`、`fibroblastCount` 等（见 `simulation.js` 的 `computeMetrics`）。
 
 ## 5. 存档与兼容性
 
-- 当前存档格式：`SAVE_VERSION = 3`（`MODEL_VERSION = '2.0.0'`）。
+- 当前存档格式：`SAVE_VERSION = 3`（`MODEL_VERSION = '1.0.0'`）。
 - 存档大小上限：`MAX_SAVE_BYTES = 8 MiB`。
 - `validateAndMigrateState` 负责从 v1/v2 迁移到 v3；**修改状态结构时，必须同时提供迁移逻辑并更新 `tests/`**。
 - 状态中的实体数组、坐标、id、事件与历史长度均有上限（`ENTITY_LIMITS`），防止恶意存档导致内存问题。

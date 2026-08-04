@@ -9,7 +9,7 @@ const eightNeighbors = [
 ];
 
 /**
- * TME Aquarium v2.0 evidence-aware educational model.
+ * TME Aquarium v1.0 evidence-aware educational model.
  *
  * All numeric values are dimensionless, normalized simulation coefficients. They are
  * not clinical or experimentally calibrated constants. The scientific provenance for
@@ -952,10 +952,10 @@ export class Simulation {
       sim.macrophages = legacyMacrophages.map((cell) => ({ ...cell, id: nextId++ }));
       sim.fibroblasts = legacyFibroblasts.map((cell) => ({ ...cell, id: nextId++ }));
       sim.nextId = nextId;
-      sim.migrationInfo = { fromVersion: 1, message: '已迁移 v1 存档，并补入巨噬细胞、CAF 与 v2.0 免疫状态字段。' };
+      sim.migrationInfo = { fromVersion: 1, message: '已迁移 v1 存档，并补入巨噬细胞、CAF 与 v1.0 免疫状态字段。' };
     } else {
       sim.nextId=state.nextId;
-      sim.migrationInfo = state.migratedFromVersion ? { fromVersion: state.migratedFromVersion, message: `已将 v${state.migratedFromVersion} 存档迁移到 v2.0 模型。` } : null;
+      sim.migrationInfo = state.migratedFromVersion ? { fromVersion: state.migratedFromVersion, message: `已将 v${state.migratedFromVersion} 存档迁移到 v1.0 模型。` } : null;
     }
     sim.rng.state=state.rngState>>>0;
     sim.rebuildOccupancy();

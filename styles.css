@@ -367,7 +367,7 @@ input[type="range"]::-webkit-slider-thumb { appearance:none; width:16px; height:
   .legend { max-width:calc(100% - 24px); }
 }
 
-/* v2.0 research workbench, spatial probe and accessibility */
+/* v1.0 research workbench, spatial probe and accessibility */
 .research-card {
   border:1px solid rgba(91,224,206,.17); border-radius:13px; padding:12px;
   background:linear-gradient(150deg,rgba(91,224,206,.06),rgba(97,168,255,.035));

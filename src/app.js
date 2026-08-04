@@ -518,7 +518,7 @@ function renderStaticHelp(page) {
       bullets: ['滚轮缩放，拖拽平移，点击任一细胞查看局部状态。', '暂停后逐步推进，比较短期治疗反应与长期生态适应。', '固定随机种子与相同参数会复现相同初始生态。'],
     },
     lab: {
-      title: 'v2.0 实验工作流',
+      title: 'v1.0 实验工作流',
       paragraphs: [
         '选择一个明确问题，只改变一个主要变量。运行到稳定观察点后记录基线，再施加干预并继续运行至少 1 个模拟日。',
         '基线比较显示同一次运行中的前后差异，不能排除时间趋势、随机性和其他耦合机制，因此不等价于真实对照实验或因果效应。',
@@ -529,7 +529,7 @@ function renderStaticHelp(page) {
       title: '当前简化规则',
       paragraphs: [
         '氧气、药物暴露、基质、免疫抑制、急性炎症、慢性炎症压力和血管支持均以归一化代理场表示。癌细胞、T 细胞、巨噬细胞和成纤维细胞是独立 Agent。',
-        'T 细胞耗竭在 v2.0 中拆为总体耗竭、前体样状态和终末耗竭三个代理维度；巨噬细胞仍使用连续功能轴；CAF 使用活化、基质活动和排斥活动三个维度。治疗不会主动创造耐药，而是改变竞争与相对组成。',
+        'T 细胞耗竭在 v1.0 中拆为总体耗竭、前体样状态和终末耗竭三个代理维度；巨噬细胞仍使用连续功能轴；CAF 使用活化、基质活动和排斥活动三个维度。治疗不会主动创造耐药，而是改变竞争与相对组成。',
       ],
     },
     limits: {
@@ -675,7 +675,7 @@ function renderComparison() {
 function experimentReportText() {
   if (!snapshot) throw new Error('模拟尚未就绪');
   const lines = [
-    '# TME Aquarium v2.0 实验记录',
+    '# TME Aquarium v1.0 实验记录',
     '',
     `- 导出时间：${new Date().toISOString()}`,
     `- 场景：${snapshot.scenario.name}`,

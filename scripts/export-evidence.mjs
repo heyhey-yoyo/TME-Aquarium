@@ -44,7 +44,7 @@ const bibtex = REFERENCES.map((reference) => {
   return `@article{${key},\n${fields}\n}`;
 }).join('\n\n');
 
-fs.writeFileSync(new URL('../docs/参考文献_v2.0.csv', import.meta.url), csv(referenceRows));
-fs.writeFileSync(new URL('../docs/机制证据登记_v2.0.csv', import.meta.url), csv(mechanismRows));
+fs.writeFileSync(new URL('../docs/参考文献_v1.0.csv', import.meta.url), csv(referenceRows));
+fs.writeFileSync(new URL('../docs/机制证据登记_v1.0.csv', import.meta.url), csv(mechanismRows));
 fs.writeFileSync(new URL('../docs/references.bib', import.meta.url), `${bibtex}\n`);
 console.log(`已导出 ${REFERENCES.length} 条参考文献与 ${MECHANISMS.length} 项机制登记。`);

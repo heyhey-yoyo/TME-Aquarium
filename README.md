@@ -1,4 +1,4 @@
-# TME Aquarium v2.0.0
+# TME Aquarium v1.0.0
 
 一个离线优先、可复现的肿瘤微环境机制教学与实验平台。它把二维空间模拟、实验基线对照、空间探针、研究任务和证据边界说明整合在同一界面中。
 
@@ -48,7 +48,7 @@ npm run verify
 
 验证流程包括：
 
-1. 证据导出（`npm run evidence`）——生成 `docs/机制证据登记_v2.0.csv`、`docs/参考文献_v2.0.csv`、`docs/references.bib`；
+1. 证据导出（`npm run evidence`）——生成 `docs/机制证据登记_v1.0.csv`、`docs/参考文献_v1.0.csv`、`docs/references.bib`；
 2. Node 单元测试（`npm test`）；
 3. 六场景、单参数方向与治疗弧审计（`npm run audit`）——结果写入 `docs/场景校准与敏感性审计.md`；
 4. 静态完整性审计（`npm run check`）——HTML DOM 引用、图层、外链安全、JavaScript 语法和 Service Worker 资源完整性。
@@ -71,7 +71,7 @@ npm run verify
 │   ├── charts.js             Canvas 图表
 │   ├── evidence.js           机制—证据—模型翻译—边界登记
 │   └── app.js                实验工作台、任务、导出与 UI 控制
-├── tests/                    状态、模型与 v2.0 回归测试
+├── tests/                    状态、模型与 v1.0 回归测试
 ├── scripts/                  证据导出、场景审计、静态完整性审计
 └── docs/                     科学说明、升级指南、校准审计、参考文献
 ```
@@ -79,8 +79,8 @@ npm run verify
 ## 科学依据与边界
 
 - 每个模型机制都在 `src/evidence.js` 中登记证据层级、模型翻译与不可外推部分；应用内“证据与边界”面板可查看。
-- 完整科学说明见 `SCIENCE_MODEL_NOTES_v2.0_zh-CN.md`。
-- 详细变更见 `CHANGELOG_v2.0.md`；从 v1.x 升级见 `UPGRADE_GUIDE_v2.0_zh-CN.md`。
+- 完整科学说明见 `SCIENCE_MODEL_NOTES_v1.0_zh-CN.md`。
+- 详细变更见 `CHANGELOG_v1.0.md`；从 v1.x 升级见 `UPGRADE_GUIDE_v1.0_zh-CN.md`。
 - 模型是机制教学工具，未经外部数据集拟合，未提供置信区间或临床验证。
 
 ## 推荐教学流程

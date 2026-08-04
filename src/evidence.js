@@ -54,7 +54,7 @@ export const MECHANISMS = [
   {
     id:'tcell-dysfunction', title:'持续刺激、低氧与抑制环境塑造不同 T 细胞功能状态', level:'动物肿瘤单细胞、功能与代谢实验',
     evidence:'肿瘤内耗竭样 CD8 T 细胞并非单一终点；前体样与终末样亚群具有不同的增殖潜力、肿瘤控制能力和治疗响应。持续刺激与低氧共同作用还可加速功能障碍。',
-    translation:'v2.0 同时保存 stemlike、terminalExhaustion 与总体 exhaustion 三个代理维度。急性激活可短时支持效应功能，慢性炎症压力、持续接触和低氧推动终末化；免疫增强只能部分缓解，不会把终末状态瞬间重置。',
+    translation:'v1.0 同时保存 stemlike、terminalExhaustion 与总体 exhaustion 三个代理维度。急性激活可短时支持效应功能，慢性炎症压力、持续接触和低氧推动终末化；免疫增强只能部分缓解，不会把终末状态瞬间重置。',
     caveat:'三个归一化变量仍不是细胞谱系鉴定，也不对应 TCF1、PD-1、TIM-3 等真实标志物阈值；模型没有显式克隆追踪、淋巴结补给或表观遗传锁定。', refs:['PHILIP2017','MILLER2019','SCHARPING2021']
   },
   {
@@ -79,7 +79,7 @@ export const MECHANISMS = [
     id:'macrophage-hypoxia', title:'缺氧区募集并重塑巨噬细胞功能', level:'动物模型直接实验支持',
     evidence:'阻止巨噬细胞进入缺氧肿瘤区域可降低其促血管与免疫抑制功能，并改变肿瘤进展。',
     translation:'巨噬细胞趋向坏死、炎症和低氧区域；持续低氧使功能轴向抑制/修复方向偏移，并产生有限的血管支持场。',
-    caveat:'模型没有显式模拟 Sema3A/Nrp1、HIF 或具体细胞因子；v2.0 只加入局部低氧梯度方向感知，并未解析完整趋化网络，血管支持仍是定性反馈。', refs:['CASAZZA2013','LIN2006']
+    caveat:'模型没有显式模拟 Sema3A/Nrp1、HIF 或具体细胞因子；v1.0 只加入局部低氧梯度方向感知，并未解析完整趋化网络，血管支持仍是定性反馈。', refs:['CASAZZA2013','LIN2006']
   },
   {
     id:'macrophage-tcell', title:'巨噬细胞可构成 T 细胞进入与接触肿瘤细胞的障碍', level:'人组织相关 + 动物干预证据',
@@ -120,7 +120,7 @@ export const MECHANISMS = [
   {
     id:'acute-chronic-inflammation', title:'急性激活信号与慢性炎症压力分场表示', level:'教学模型抽象',
     evidence:'炎症在肿瘤中具有时间和情境依赖性：短时危险信号可促进募集与激活，而持续刺激、坏死负荷和代谢压力也可伴随免疫功能障碍与组织重塑。',
-    translation:'v2.0 将 inflammation 用作短程急性趋化/激活代理，将 chronicInflammation 用作较慢扩散、较慢消退的持续压力代理；二者对 T 细胞和髓系细胞产生不同方向的影响。',
+    translation:'v1.0 将 inflammation 用作短程急性趋化/激活代理，将 chronicInflammation 用作较慢扩散、较慢消退的持续压力代理；二者对 T 细胞和髓系细胞产生不同方向的影响。',
     caveat:'这两个场不是特定细胞因子浓度，也不能分别等同于“抗肿瘤炎症”和“促肿瘤炎症”；真实通路可交叉、转向并具有癌种差异。', refs:['WERFEL2019','SCHARPING2021']
   },
   {

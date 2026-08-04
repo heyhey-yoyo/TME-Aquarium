@@ -23,7 +23,7 @@ function run({ scenarioId = 'rebound', seed, params = {}, steps = 600, therapy =
 }
 
 const lines = [
-  '# v2.0 场景校准与单参数敏感性审计',
+  '# v1.0 场景校准与单参数敏感性审计',
   '',
   `- 生成日期：${new Date().toISOString().slice(0, 10)}`,
   '- 状态：内部一致性、方向与数值稳定性审计；不是实验数据拟合或临床校准。',

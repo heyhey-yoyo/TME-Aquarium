@@ -8,11 +8,11 @@ function run(sim, steps = 240) {
   return sim;
 }
 
-test('v2.0 存档格式与模型版本正确', () => {
+test('v1.0 存档格式与模型版本正确', () => {
   const sim = new Simulation({ scenarioId: 'rebound', seed: 'V2-SAVE' });
   const state = sim.serialize();
   assert.equal(state.version, 3);
-  assert.equal(state.modelVersion, '2.0.0');
+  assert.equal(state.modelVersion, '1.0.0');
   assert.equal(state.chronicInflammation.length, sim.width * sim.height);
 });
 
@@ -48,7 +48,7 @@ test('新增生态指标保持归一化边界', () => {
   }
 });
 
-test('v2 存档可迁移并补入 v2.0 字段', () => {
+test('v2 存档可迁移并补入 v1.0 字段', () => {
   const sim = run(new Simulation({ scenarioId: 'rebound', seed: 'V2-MIGRATE' }), 30);
   const legacy = sim.serialize();
   legacy.version = 2;

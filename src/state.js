@@ -1,7 +1,7 @@
 import { SCENARIOS, getScenario } from './scenarios.js';
 
 export const SAVE_VERSION = 3;
-export const MODEL_VERSION = '2.0.0';
+export const MODEL_VERSION = '1.0.0';
 export const GRID_WIDTH = 96;
 export const GRID_HEIGHT = 60;
 export const GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
