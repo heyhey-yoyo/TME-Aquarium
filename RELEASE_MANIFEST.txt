@@ -1,0 +1,44 @@
+TME Aquarium v1.0.0 release manifest
+Release date: 2026-08-04
+Model version: 1.0.0; save format: v3
+Verification: 22/22 tests; scenario audit passed; static integrity audit passed.
+Browser note: headless Chromium smoke test was blocked by the container DBus/process environment.
+Files listed: 36
+
+SHA-256  BYTES  PATH
+3fbb9fe2cd1e65deb7eec8bbe9d69da9691f61ec08c79ddfc33bcd6220cb0067      6933  ./AGENTS.md
+cbb82484225d6f50c83232b2b570db4ac70f97ad1b04602d58db73ea981b01e6      2057  ./CHANGELOG_v1.0.md
+5c1bcc00d683bdabc8719c952374015d1b1a4ae29e8ac41f2d890650dc66b524      1082  ./LICENSE
+71cde3a259a9cd9442535002039d8ebd05a6573f898af6a31d861794c63b6cf1      5545  ./README.md
+e12d4c6fde7f79a835d6e12c19febc42c27965607ff02b46c4892e0541283d39      3673  ./RELEASE_MANIFEST.txt
+dacad58639479a897c40dbc9a7a3dd594fc3df3fd04a81af2c43e450b4e10073      3694  ./SCIENCE_MODEL_NOTES_v1.0_zh-CN.md
+0d1e5bdae5dbe6d198bf02e49a4862e3364e56fe69e4e8e0a3dd2386a3645fba      1682  ./UPGRADE_GUIDE_v1.0_zh-CN.md
+bb40bac10a71f0c111003235179e532cf6bb76c4fd0fa97935e9cb4f336f0e89       683  ./_headers
+6111e598a162aa99d2906f8e82f7dcdca2e86c75c17635eef2c132cba06e4a78      1224  ./assets/icon.svg
+7187bbd00a5ac87c2c7e4147bc1ee43f99a97eb8a61ed7a4d0b4fbfe1bad34dc       867  ./docs/legacy-v1.1.1/CHANGELOG_SCIENCE_UI.md
+a69edf854fd8dc127752d9709bb4e47e8ef8339fd9cb1b98a33064d13e4332ef     14991  ./docs/legacy-v1.1.1/SCIENCE_UI_REVIEW_zh-CN.md
+91395fbd6476e52a2a0e5f16b48246388e108c2a48f4fc0bc4baac37b50d4279      6958  ./docs/references.bib
+9047c1bcc46af74ef6b2f6e6ce8d4476affae9ae7f9e6ee5b9aae1f59ca78f1d      6246  ./docs/参考文献_v1.0.csv
+3fde9c8ce78ecf391715ad71b8be428c495625d00f93bfade353c0979512af97      3309  ./docs/场景校准与敏感性审计.md
+df7e6a5e7bdad0f823bda3e8d030910b3d851ab46c684c5b20a1eab627e22c4a      9640  ./docs/机制证据登记_v1.0.csv
+e56bb8e9cea64c28d5b2b1aa27a565fc56fa838cfb0f7ba30a9819853c40104a      1995  ./docs/验证报告_v1.0.md
+14bfe3a0a9b861709e218715e5ed74a9ea75e3cb38903b2163f5995c406bc06f     20012  ./index.html
+58c756e65f2acb78efc52cc1b704fa89beb9fb67970e0d027744060f96635ead       544  ./manifest.webmanifest
+7ddce6fa0578f644c36d219beeb23bd1ca66db5fe51ba22d9ac3f73dc0ab1d0e       541  ./package.json
+dcc630fe913c3d6f83c0920274c777ad8a9694fe3929aff624c8fdf9cd11f8bb      1932  ./scripts/export-evidence.mjs
+f086280b3a7199e01588eb20eafff7f5dfe76320a387388d35adfd21713b4789      5010  ./scripts/scenario-audit.mjs
+a6fd33e5b403cc9e11dff06219e9fb46fb294a8e7cd84246ee9a652953d6c5f8      4633  ./scripts/static-audit.mjs
+d608fd5a1b9cb4e96263dc7a10477765bc2ec701dc724b9280872849005af917     49214  ./src/app.js
+1b91c9393509001ee3b09f51d43d5126afa807b52883aa09cdc8cd24bc87bae4      2346  ./src/charts.js
+d74c55a1d68b5522b23668f64dc506c9893347b9cbb03ccf0f5725af4c69e172     17437  ./src/evidence.js
+dc669808e56cc687455363d23637b2b50159839f48c557a649595475232c972d     15453  ./src/renderer.js
+c445af555b2e59a3f9d12ac3ec72062f21b0df4c1d3ac046332b28ed46c99723      1355  ./src/rng.js
+2d82030c9b0da53be5fb2e58a1bdac43b81f63ba2627059b578c921073ffcb24      6928  ./src/scenarios.js
+d9798517d53b4f9bb9cb504c14afea70791dd04643ec09b44834705044f76e2c     48718  ./src/simulation.js
+121c0056871295a8c51284b3635d6fb6d4e8c18461364567814df7541f90aa6c      3830  ./src/simulation.worker.js
+074757ba03161e17a5084e7b8e254ee150c8090ae20896a1f07f4bd6168621a1     14387  ./src/state.js
+84819ce828d56f92c4f7e7c0c31242c425a618dfa187d0e76773f63006e5acb7     33382  ./styles.css
+b711269e2115982b6c847809798e9ae42ca23a9a759de1101614edc4f0a1c3de      1455  ./sw.js
+c8213351c9fbdbffc7b70f9fe1d2955e569496e3b66c864a55a023836a6ba008      1768  ./tests/simulation.test.js
+ed1fa65e0449da404ecf8b580e7535fbfefd33c8be4fca39996211d14d73852d      4768  ./tests/v1.0.test.js
+84327a6d31aa420dd295b66400d1d05d25df4dc2c557fe2c78b3523f6653c793      9233  ./tests/v1.1.test.js

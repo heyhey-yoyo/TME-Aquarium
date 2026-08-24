@@ -1,0 +1,19 @@
+{
+  "name": "肿瘤微环境生态模拟器｜TME Aquarium",
+  "short_name": "TME Aquarium",
+  "description": "可建立基线、读取空间代理场并比较干预结果的肿瘤—免疫—间质生态教学实验平台。",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#071116",
+  "theme_color": "#071116",
+  "icons": [
+    {
+      "src": "./assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
