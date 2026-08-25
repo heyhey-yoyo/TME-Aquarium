@@ -468,3 +468,20 @@ h1,h2,h3{font-family:Georgia,"Times New Roman","Songti SC","STSong",serif;font-w
 input[type=range]{background:linear-gradient(90deg,rgba(193,95,60,.7),rgba(193,95,60,.18))}
 @media(max-width:1120px){.workspace{grid-template-columns:1fr}.left-panel,.right-panel{max-height:none;overflow:visible}.stage-panel{order:-1}}
 @media(max-width:760px){.scenario-strip,.run-controls{flex-wrap:wrap}.topbar{align-items:flex-start}.workspace{padding-inline:16px}}
+
+/* Visual QA baseline: readable controls, accessible light surfaces, and a legible dark simulation stage. */
+:root{--muted:#5f5a53;--muted-2:#6b655e;--aqua:#a94f31;--aqua-2:#823a25}
+body{font-size:15px}
+.topbar{grid-template-columns:minmax(0,240px) minmax(0,350px) minmax(0,1fr) auto;gap:10px;padding:10px 18px;width:100%}
+.compact-field select{width:180px}.seed-field input{width:145px}
+.run-controls .primary{min-width:110px}.run-controls .btn{padding-inline:12px;white-space:nowrap}.speed-control button{min-width:36px}
+.top-actions{flex-wrap:nowrap}
+.icon-btn{min-width:38px;padding-inline:6px;white-space:nowrap}
+.btn.treatment{color:#743721;background:#f0ded4;border-color:#c99883}
+.btn.treatment:hover{background:#e7cabb}
+.btn.lesson-btn{color:#4f5368;background:#e8e3ec;border-color:#aaa3b8}
+.btn.lesson-btn:hover{background:#ddd6e4}
+.lesson-kicker{color:#6d4e72}
+.eyebrow,.mission-item small,.comparison-item span,.comparison-item small,.map-probe dt,.map-probe dd{font-size:12px}
+.canvas-wrap{--text:#eaf6f4;--muted:#b8c9c6;--muted-2:#9bb0ad;--aqua:#5be0ce;--aqua-2:#7ee8d9;--line:rgba(163,222,216,.2);--line-strong:rgba(163,222,216,.36);color:var(--text)}
+@media(max-width:1280px) and (min-width:1121px){.top-actions .icon-btn{min-width:36px;padding-inline:5px}.topbar{padding-inline:12px}}
