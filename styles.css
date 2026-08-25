@@ -445,3 +445,26 @@ body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after 
   .map-probe { width:176px; right:7px; top:49px; }
   .comparison-grid { grid-template-columns:1fr 1fr; }
 }
+/* Portfolio visual system: keep the simulation canvas, workers, and model semantics intact. */
+:root{color-scheme:light;--bg:#f3eee5;--bg-2:#ebe4d8;--panel:rgba(255,252,247,.84);--panel-strong:#fbf8f2;--line:rgba(36,34,31,.18);--line-strong:rgba(36,34,31,.3);--text:#24221f;--muted:#6f6a62;--muted-2:#938b80;--aqua:#c15f3c;--aqua-2:#a94f31;--blue:#8c6b5d;--purple:#8e6b80;--pink:#a56f8f;--orange:#a56b2b;--danger:#b84a45;--success:#357b56;--radius:0;--shadow:0 14px 32px rgba(36,34,31,.06)}
+html,body{background:var(--bg);color:var(--text)}
+body{overflow:auto}
+h1,h2,h3{font-family:Georgia,"Times New Roman","Songti SC","STSong",serif;font-weight:400}
+.app-shell{height:auto;min-height:100vh;padding:0;background:radial-gradient(circle at 78% -8%,rgba(193,95,60,.1),transparent 30%),var(--bg)}
+.app-shell::before{opacity:.18;background-image:linear-gradient(rgba(36,34,31,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(36,34,31,.055) 1px,transparent 1px)}
+.glass,.topbar,.panel{background:rgba(255,252,247,.82);border-color:var(--line);box-shadow:none}
+.topbar{height:auto;min-height:80px;border-radius:0;padding:12px clamp(16px,4vw,56px);position:sticky;top:0}
+.brand-mark{border-radius:0;background:var(--text);box-shadow:none;border-color:var(--line-strong)}
+.compact-field select,.compact-field input{background:rgba(255,255,255,.46);color:var(--text);border-color:var(--line-strong);border-radius:0}
+.btn,.icon-btn{border-radius:0;box-shadow:none}
+.btn.primary{background:var(--aqua);color:var(--bg)}
+.btn.ghost,.icon-btn{background:transparent;border-color:var(--line-strong);color:var(--text)}
+.workspace{height:auto;min-height:0;grid-template-columns:310px minmax(520px,1fr) 340px;gap:18px;padding:24px clamp(16px,4vw,56px) 56px}
+.panel-heading h2{font-weight:400}
+.control-section{border-color:var(--line)}
+.treatment-card,.tool-card,.metric-grid article,.observation-card,.result-card,.recommend-card{background:rgba(235,228,216,.68);border-color:var(--line);border-radius:0;box-shadow:none}
+.stage-panel{background:transparent}
+.canvas-wrap{border-radius:0}
+input[type=range]{background:linear-gradient(90deg,rgba(193,95,60,.7),rgba(193,95,60,.18))}
+@media(max-width:1120px){.workspace{grid-template-columns:1fr}.left-panel,.right-panel{max-height:none;overflow:visible}.stage-panel{order:-1}}
+@media(max-width:760px){.scenario-strip,.run-controls{flex-wrap:wrap}.topbar{align-items:flex-start}.workspace{padding-inline:16px}}

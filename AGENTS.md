@@ -118,3 +118,7 @@ npm run verify
 > - 新增/重命名静态资源后必须更新 `sw.js` 的 `ASSETS` 清单与 `CACHE` 版本名
 > - 任何改动提交前必须通过 `npm run verify`
 > - 不得放宽 `_headers` 中的 CSP
+
+## 界面维护约定
+
+工作台使用 `ydchen-portfolio` 的米白 / 赤陶色视觉系统；视觉调整不得改变空间模拟、画布语义、存档迁移、证据登记、Service Worker 清单或 CSP。
