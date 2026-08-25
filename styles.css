@@ -485,3 +485,5 @@ body{font-size:15px}
 .eyebrow,.mission-item small,.comparison-item span,.comparison-item small,.map-probe dt,.map-probe dd{font-size:12px}
 .canvas-wrap{--text:#eaf6f4;--muted:#b8c9c6;--muted-2:#9bb0ad;--aqua:#5be0ce;--aqua-2:#7ee8d9;--line:rgba(163,222,216,.2);--line-strong:rgba(163,222,216,.36);color:var(--text)}
 @media(max-width:1280px) and (min-width:1121px){.top-actions .icon-btn{min-width:36px;padding-inline:5px}.topbar{padding-inline:12px}}
+.brand-mark{background:var(--text) url("./assets/project-mark.svg") center/100% 100% no-repeat}
+.brand-mark::before,.brand-mark::after,.brand-mark span,.brand-mark i{display:none}

@@ -1,10 +1,11 @@
-const CACHE = 'tme-aquarium-v1.0.0-lab-visual-qa';
+const CACHE = 'tme-aquarium-v1.0.0-project-mark';
 const ASSETS = [
   './',
   './index.html',
   './styles.css',
   './manifest.webmanifest',
   './assets/icon.svg',
+  './assets/project-mark.svg',
   './src/app.js',
   './src/charts.js',
   './src/evidence.js',

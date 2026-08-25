@@ -10,7 +10,7 @@
   "theme_color": "#071116",
   "icons": [
     {
-      "src": "./assets/icon.svg",
+      "src": "./assets/project-mark.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
