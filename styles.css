@@ -487,3 +487,24 @@ body{font-size:15px}
 @media(max-width:1280px) and (min-width:1121px){.top-actions .icon-btn{min-width:36px;padding-inline:5px}.topbar{padding-inline:12px}}
 .brand-mark{background:var(--text) url("./assets/project-mark.svg") center/100% 100% no-repeat}
 .brand-mark::before,.brand-mark::after,.brand-mark span,.brand-mark i{display:none}
+
+/* Keep the desktop simulator a compact workbench while isolating a neutral dark canvas. */
+@media (min-width:1121px){
+  html,body{height:100%;overflow:hidden}
+  .app-shell{display:grid;grid-template-rows:auto minmax(0,1fr);height:100dvh;min-height:0;overflow:hidden}
+  .workspace{height:auto;min-height:0;overflow:hidden}
+  .left-panel,.right-panel{min-height:0;max-height:none;overflow-y:auto}
+  .center-stage,.stage-card{min-height:0}
+}
+@media (max-width:1120px){
+  html,body{height:auto;overflow:auto}
+  .app-shell{display:block;height:auto;min-height:100vh;overflow:visible}
+  .workspace{overflow:visible}
+}
+.canvas-wrap{background:radial-gradient(circle at 48% 44%,#3b3732 0%,#2d2a27 57%,#24221f 100%);--text:#fbf8f2;--muted:#d2cabd;--muted-2:#b6ac9d;--aqua:#e5a189;--aqua-2:#f0c1ad;--line:rgba(251,248,242,.22);--line-strong:rgba(251,248,242,.4);color:var(--text)}
+.canvas-vignette{background:radial-gradient(circle at center,transparent 46%,rgba(18,17,15,.38) 100%);box-shadow:inset 0 0 80px rgba(18,17,15,.56),inset 0 0 8px rgba(251,248,242,.05)}
+.legend,.micro-status{background:rgba(36,34,31,.8)}
+.empty-prompt{background:linear-gradient(160deg,rgba(57,53,48,.94),rgba(36,34,31,.9));border-color:rgba(251,248,242,.28)}
+.empty-prompt h3{color:#fbf8f2;text-shadow:0 2px 12px rgba(0,0,0,.34)}
+.prompt-orbit{border-color:rgba(229,161,137,.4);box-shadow:inset 0 0 30px rgba(229,161,137,.08)}
+.cell-tooltip{background:rgba(36,34,31,.92)}

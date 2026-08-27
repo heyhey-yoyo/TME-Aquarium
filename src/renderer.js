@@ -125,7 +125,7 @@ export class AquariumRenderer {
     ctx.save();
     ctx.setTransform(this.dpr,0,0,this.dpr,0,0);
     const bg=ctx.createRadialGradient(rect.width*.48,rect.height*.48,0,rect.width*.48,rect.height*.48,Math.max(rect.width,rect.height)*.72);
-    bg.addColorStop(0,'#071a1f'); bg.addColorStop(1,'#02070a');
+    bg.addColorStop(0,'#35312d'); bg.addColorStop(1,'#24221f');
     ctx.fillStyle=bg; ctx.fillRect(0,0,rect.width,rect.height);
     if(!this.snapshot){ctx.restore();return;}
     this.computeOffset();
