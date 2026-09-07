@@ -21,7 +21,7 @@ TME Aquarium 是一个离线优先、可复现的肿瘤微环境（TME）机制�
 | 文件 | 职责 |
 | --- | --- |
 | `index.html` | 全部 DOM 结构；控件用 `id`，地图图层按钮用 `data-layer` |
-| `styles.css` | 响应式布局、深色主题、可访问性（色觉友好、减少动效） |
+| `styles.css` | 响应式布局、深色模拟画布主题、可访问性（色觉友好、减少动效） |
 | `src/simulation.js` | `Simulation` 类：空间场、细胞主体、指标计算、干预逻辑 |
 | `src/simulation.worker.js` | Worker 消息循环，白名单消息分发 |
 | `src/state.js` | 存档校验（v3）、参数边界 `PARAM_LIMITS`、存档迁移 |
