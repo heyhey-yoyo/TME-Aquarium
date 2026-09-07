@@ -1,4 +1,4 @@
-# TME Aquarium v1.0.0 — 项目说明（供 AI 编程代理阅读）
+# TME Aquarium — 项目说明（供 AI 编程代理阅读）
 
 ## 项目概览
 
@@ -12,13 +12,7 @@ TME Aquarium 是一个离线优先、可复现的肿瘤微环境（TME）机制�
 
 - 纯浏览器端 ES Module，**零第三方运行时依赖**；`package.json` 仅用于脚本命令。
 - 模拟逻辑运行在 Web Worker（`src/simulation.worker.js`）中，主线程只做渲染与 UI。
-- 无需构建步骤。本地开发：
-
-```bash
-npm start          # 即 python3 -m http.server 4173
-```
-
-或 `python3 -m http.server 8080`。直接用 `file://` 打开 `index.html` 时 Worker/PWA 可能受限。
+- 无需构建步骤。直接用 `file://` 打开 `index.html` 时 Worker/PWA 可能受限（本地预览命令见「运行与构建」）。
 
 ## 项目结构
 
@@ -40,6 +34,16 @@ npm start          # 即 python3 -m http.server 4173
 | `scripts/static-audit.mjs` | HTML/JS/Service Worker 完整性审计 |
 | `scripts/scenario-audit.mjs` | 场景校准与敏感性审计，写入 `docs/场景校准与敏感性审计.md` |
 | `scripts/export-evidence.mjs` | 从 `evidence.js` 导出 CSV 与 BibTeX |
+| `sw.js` | Service Worker：离线预缓存清单 `ASSETS` 与 `CACHE` 版本名 |
+| `manifest.webmanifest` | PWA 清单 |
+| `_headers` | Cloudflare Pages 安全响应头（严格 CSP 等） |
+| `assets/` | `icon.svg` 与 `project-mark.svg`（favicon 与 PWA 图标） |
+| `tests/` | Node 单元测试（3 个文件） |
+| `docs/` | 证据登记与参考文献 CSV、`references.bib`、场景校准审计文档 |
+| `package.json` | npm 脚本（无运行时依赖） |
+| `CHANGELOG_v1.0.md` / `SCIENCE_MODEL_NOTES_v1.0_zh-CN.md` / `UPGRADE_GUIDE_v1.0_zh-CN.md` | 变更记录、科学模型说明与升级指南 |
+| `RELEASE_MANIFEST.txt` | 发布清单 |
+| `LICENSE` | MIT 许可证 |
 
 ### 关键数据流
 
@@ -54,7 +58,7 @@ app.js <--postMessage(snapshot)-- worker <-- Simulation.snapshot()
 
 ## 运行与构建
 
-无需构建步骤。`npm start`（即 `python3 -m http.server 4173`）本地预览。
+无需构建步骤。`npm start` 本地预览（端口 4173），也可手动 `python -m http.server 4173`。
 
 ## 测试
 
@@ -122,11 +126,11 @@ npm run verify
 
 ## 标志维护约定
 
-项目标志采用统一的深灰方章、米白线条与赤陶色识别点，页面标志与 favicon 共用同一 `project-mark.svg`。后续替换必须保持原标志容器宽高，不得借机改变页眉、网格或页面布局。
+项目标志采用统一的深灰方章、米白线条与赤陶色识别点；favicon 与 PWA 图标使用 `assets/project-mark.svg`，页眉标志为其 CSS 复刻（`.brand-mark`），视觉保持一致。后续替换必须保持原标志容器宽高，不得借机改变页眉、网格或页面布局。
 
 ## 界面维护约定
 
-工作台使用 `ydchen-portfolio` 的米白 / 赤陶色视觉系统；视觉调整不得改变空间模拟、画布语义、存档迁移、证据登记、Service Worker 清单或 CSP。
+工作台使用与 `ydchen-portfolio` 同族的深色暖棕视觉系统（深棕黑背景 `#211e1a`、米白文字 `#f3eee5`、浅赤陶强调 `#e5a189`）；视觉调整不得改变空间模拟、画布语义、存档迁移、证据登记、Service Worker 清单或 CSP。
 
 视觉验收需保持正文 15px、操作标签不小于 12px，深色画布使用独立高对比度令牌，并在 1440px 桌面与 390px 手机视口检查全局横向溢出。
 
