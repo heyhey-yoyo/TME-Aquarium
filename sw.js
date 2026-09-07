@@ -1,4 +1,4 @@
-const CACHE = 'tme-aquarium-v1.0.0-workbench-dark-1';
+const CACHE = 'tme-aquarium-v1.0.0-workbench-light-3';
 const ASSETS = [
   './',
   './index.html',
