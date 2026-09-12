@@ -974,12 +974,12 @@ $('saveBtn').addEventListener('click', async () => {
   }
 });
 $('loadBtn').addEventListener('click', () => {
-  const raw = localStorage.getItem('tme-aquarium-save-v3') || localStorage.getItem('tme-aquarium-save-v2') || localStorage.getItem('tme-aquarium-save-v1');
-  if (!raw) {
-    showToast('当前浏览器没有存档');
-    return;
-  }
   try {
+    const raw = localStorage.getItem('tme-aquarium-save-v3') || localStorage.getItem('tme-aquarium-save-v2') || localStorage.getItem('tme-aquarium-save-v1');
+    if (!raw) {
+      showToast('当前浏览器没有存档');
+      return;
+    }
     applyValidatedState(parseAndValidateStateText(raw));
   } catch (error) {
     showToast(error instanceof Error ? `存档被拒绝：${error.message}` : '存档损坏，无法恢复');

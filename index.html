@@ -14,15 +14,17 @@
   <noscript>此应用需要 JavaScript 才能运行。</noscript>
   <div id="app" class="app-shell">
     <header class="topbar glass">
-      <div class="brand-wrap">
+<div class="brand-wrap">
         <div class="brand-mark" aria-hidden="true"><span></span><i></i></div>
         <div>
           <div class="brand">肿瘤微环境生态模拟器</div>
           <div class="brand-sub">TME Aquarium</div>
         </div>
       </div>
-
-      <div class="scenario-strip">
+<a class="header-controls-link" href="#simulationControls">模拟控制</a>
+</header>
+<section class="simulation-toolbar" id="simulationControls" aria-label="模拟控制选项">
+<div class="scenario-strip">
         <label class="compact-field">
           <span>生态场景</span>
           <select id="scenarioSelect" aria-label="选择生态场景"></select>
@@ -32,8 +34,7 @@
           <input id="seedInput" value="TME-7FH2-K9P4" spellcheck="false" />
         </label>
       </div>
-
-      <div class="run-controls" aria-label="模拟控制">
+<div class="run-controls" aria-label="模拟控制">
         <button id="playBtn" class="btn primary"><span class="play-symbol">▶</span><span>启动模拟</span></button>
         <div class="speed-control">
           <button data-speed="0.5">0.5×</button>
@@ -43,8 +44,7 @@
         </div>
         <button id="restartBtn" class="btn ghost" title="按当前设置重新开始">重新开始</button>
       </div>
-
-      <div class="top-actions">
+<div class="top-actions">
         <button id="colorVisionBtn" class="icon-btn" title="切换色觉友好配色" aria-pressed="false">色觉</button>
         <button id="motionBtn" class="icon-btn" title="减少动态效果" aria-pressed="false">动效</button>
         <button id="saveBtn" class="icon-btn" title="保存到浏览器">保存</button>
@@ -52,7 +52,7 @@
         <button id="exportBtn" class="icon-btn" title="导出数据">导出</button>
         <button id="helpBtn" class="icon-btn" title="模型说明">说明</button>
       </div>
-    </header>
+</section>
 
     <main class="workspace">
       <aside class="left-panel panel glass" aria-label="控制面板">

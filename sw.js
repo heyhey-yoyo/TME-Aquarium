@@ -1,4 +1,4 @@
-const CACHE = 'tme-aquarium-v1.0.0-workbench-light-3-visual2';
+const CACHE = 'tme-aquarium-v1.0.0-workbench-light-3-visual2-closure-1';
 const ASSETS = [
   './',
   './index.html',

@@ -69,9 +69,9 @@ function validateField(value, label, { required = true } = {}) {
   return result;
 }
 
-function validateCoordinates(entity, label) {
+function validateCoordinates(entity, label, minY = 0) {
   finite(entity.x, `${label}.x`, 0, GRID_WIDTH - 1);
-  finite(entity.y, `${label}.y`, 0, GRID_HEIGHT - 1);
+  finite(entity.y, `${label}.y`, minY, GRID_HEIGHT - 1);
 }
 
 function validateEntityId(entity, label, ids) {
@@ -120,7 +120,8 @@ function validateMacrophages(list, ids) {
   return array(list, 'macrophages', ENTITY_LIMITS.macrophages, false).map((cell, index) => {
     requireObject(cell, `macrophages[${index}]`);
     validateEntityId(cell, `macrophages[${index}]`, ids);
-    validateCoordinates(cell, `macrophages[${index}]`);
+    // 血管入口最低 y=1，生成抖动为 ±1.4；保留模型合法的边缘坐标，恢复时不改变轨迹。
+    validateCoordinates(cell, `macrophages[${index}]`, -0.4);
     finite(cell.activation, `macrophages[${index}].activation`, -1, 1);
     finite(cell.energy, `macrophages[${index}].energy`, 0, 1.1);
     finite(cell.age, `macrophages[${index}].age`, 0, 100000);
