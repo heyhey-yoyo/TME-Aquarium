@@ -1,8 +1,8 @@
-const CACHE = 'tme-aquarium-v1.0.0-workbench-light-3-visual2-closure-1-scroll-header-align';
+const CACHE = 'tme-aquarium-v1.0.0-09358abc0dd7';
 const ASSETS = [
   './',
   './index.html',
-  './styles.css?v=138eb54d9aa8',
+  './styles.css?v=09358abc0dd7',
   './manifest.webmanifest',
   './assets/icon.svg',
   './assets/project-mark.svg',
