@@ -65,7 +65,7 @@ const sw = read('sw.js');
 const assetBlock = sw.match(/const\s+ASSETS\s*=\s*\[([\s\S]*?)\];/);
 if (assetBlock) {
   const assets = [...assetBlock[1].matchAll(/['"](\.\/[^'"]+)['"]/g)].map((match) => match[1]);
-  const missingAssets = assets.map((asset) => asset.replace(/^\.\//, '')).filter((asset) => !fs.existsSync(path.join(root, asset)));
+  const missingAssets = assets.map((asset) => asset.replace(/^\.\//, '').split(/[?#]/, 1)[0]).filter((asset) => !fs.existsSync(path.join(root, asset)));
   if (missingAssets.length) fail(`Service Worker 缓存清单缺失文件：${missingAssets.join(', ')}`);
   else pass(`Service Worker 缓存清单有效（${assets.length} 个资源）`);
 } else fail('无法解析 Service Worker 资源清单');
