@@ -37,11 +37,15 @@ export class AquariumRenderer {
     this.dpr=Math.min(2,window.devicePixelRatio||1);
     this.hover=null;
     this.selectedId=null;
+    this.keyboardProbe=null;
     this.showHypoxiaContour=true;
     this.colorVision='default';
     this.reducedMotion=false;
+    this.dirty=true;
     this.resize();
   }
+
+  markDirty(){ this.dirty=true; }
 
   resize() {
     const rect=this.canvas.getBoundingClientRect();
@@ -54,15 +58,16 @@ export class AquariumRenderer {
 
   setSnapshot(snapshot){
     this.snapshot=snapshot;
+    this.dirty=true;
     if(this.fieldCanvas.width!==snapshot.width){
       this.fieldCanvas.width=snapshot.width;
       this.fieldCanvas.height=snapshot.height;
       this.fit();
     }
   }
-  setLayer(layer){ this.layer=layer; }
-  setColorVision(mode='default'){ this.colorVision=mode; }
-  setReducedMotion(value){ this.reducedMotion=Boolean(value); }
+  setLayer(layer){ this.layer=layer; this.dirty=true; }
+  setColorVision(mode='default'){ this.colorVision=mode; this.dirty=true; }
+  setReducedMotion(value){ this.reducedMotion=Boolean(value); this.dirty=true; }
   sampleAt(screenX,screenY){
     if(!this.snapshot)return null;
     const p=this.screenToWorld(screenX,screenY);
@@ -81,6 +86,7 @@ export class AquariumRenderer {
     };
   }
   fit(){
+    this.dirty=true;
     if(!this.snapshot) return;
     const rect=this.canvas.getBoundingClientRect();
     this.baseScale=Math.min(rect.width/this.snapshot.width,rect.height/this.snapshot.height)*0.94;
@@ -96,6 +102,7 @@ export class AquariumRenderer {
   }
   zoomAt(factor,screenX,screenY){
     if(!this.snapshot) return;
+    this.dirty=true;
     const world=this.screenToWorld(screenX,screenY);
     this.scale=clamp(this.scale*factor,this.baseScale*0.72,this.baseScale*4.5);
     this.offsetX=screenX-world.x*this.scale;
@@ -104,7 +111,7 @@ export class AquariumRenderer {
     this.panX=this.offsetX-(rect.width-this.snapshot.width*this.scale)/2;
     this.panY=this.offsetY-(rect.height-this.snapshot.height*this.scale)/2;
   }
-  pan(dx,dy){ this.panX+=dx; this.panY+=dy; this.computeOffset(); }
+  pan(dx,dy){ this.panX+=dx; this.panY+=dy; this.computeOffset(); this.dirty=true; }
   screenToWorld(x,y){ return {x:(x-this.offsetX)/this.scale,y:(y-this.offsetY)/this.scale}; }
 
   hitTest(screenX,screenY){
@@ -119,7 +126,9 @@ export class AquariumRenderer {
     return best;
   }
 
-  draw(){
+  draw(force=false){
+    if(!force&&!this.dirty) return false;
+    this.dirty=false;
     const ctx=this.ctx;
     const rect=this.canvas.getBoundingClientRect();
     ctx.save();
@@ -127,7 +136,7 @@ export class AquariumRenderer {
     const bg=ctx.createRadialGradient(rect.width*.48,rect.height*.48,0,rect.width*.48,rect.height*.48,Math.max(rect.width,rect.height)*.72);
     bg.addColorStop(0,'#35312d'); bg.addColorStop(1,'#24221f');
     ctx.fillStyle=bg; ctx.fillRect(0,0,rect.width,rect.height);
-    if(!this.snapshot){ctx.restore();return;}
+    if(!this.snapshot){ctx.restore();return true;}
     this.computeOffset();
     ctx.translate(this.offsetX,this.offsetY);
     ctx.scale(this.scale,this.scale);
@@ -144,7 +153,15 @@ export class AquariumRenderer {
     this.drawTCells(ctx);
     this.drawHypoxiaContour(ctx);
     this.drawBorder(ctx);
+    if(this.keyboardProbe){
+      const {x,y}=this.keyboardProbe;
+      const arm=10/this.scale;
+      ctx.beginPath();ctx.moveTo(x-arm,y);ctx.lineTo(x+arm,y);ctx.moveTo(x,y-arm);ctx.lineTo(x,y+arm);
+      ctx.strokeStyle='#24221f';ctx.lineWidth=4/this.scale;ctx.stroke();
+      ctx.strokeStyle='#fbf8f2';ctx.lineWidth=2/this.scale;ctx.stroke();
+    }
     ctx.restore();
+    return true;
   }
 
   drawField(ctx){

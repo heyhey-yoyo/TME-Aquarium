@@ -136,6 +136,18 @@ function updateControlOutputs() {
   outputs.chemoDose.value = `${controls.chemoDose.value}/100`;
 }
 
+function resetSessionUiState() {
+  clearedBeforeEventId = 0;
+  clearExperimentBaseline(false);
+  interventionKinds.clear();
+  visitedLayers.clear();
+  visitedLayers.add(renderer.layer || 'cells');
+  probeSample = null;
+  renderer.keyboardProbe = null;
+  renderMapProbe();
+  clearInspector();
+}
+
 function initSimulation({
   scenarioId = $('scenarioSelect').value,
   seed = $('seedInput').value.trim() || 'TME-7FH2-K9P4',
@@ -144,14 +156,7 @@ function initSimulation({
   isRunning = false;
   autoScript = false;
   autoTreatmentDone = false;
-  selectedCell = null;
-  renderer.selectedId = null;
-  clearExperimentBaseline(false);
-  interventionKinds.clear();
-  visitedLayers.clear();
-  visitedLayers.add(renderer.layer || 'cells');
-  probeSample = null;
-  renderMapProbe();
+  resetSessionUiState();
   updateRunUI();
   $('emptyPrompt').classList.remove('hide');
   worker.postMessage({ type: 'init', payload: { scenarioId, seed, params } });
@@ -455,6 +460,7 @@ function renderInspector(cell) {
 function clearInspector(message = '选择一个细胞，查看其类型、功能状态、局部环境和近期事件。') {
   selectedCell = null;
   renderer.selectedId = null;
+  renderer.markDirty();
   $('inspectorContent').classList.add('hidden');
   $('inspectorEmpty').classList.remove('hidden');
   $('inspectorEmpty').textContent = message;
@@ -473,14 +479,16 @@ function safeStamp() {
   return new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
 }
 function exportPNG() {
-  renderer.draw();
+  renderer.draw(true);
   $('simCanvas').toBlob((blob) => blob && downloadBlob(blob, `tme-aquarium-${safeStamp()}.png`), 'image/png');
   showToast('PNG 截图已生成');
 }
-function exportCSV() {
+async function exportCSV() {
   if (!snapshot) return;
+  const state = await requestState();
+  const history = state?.history?.length ? state.history : snapshot.history;
   const rows = ['simulation_time,tumor_cells,low_oxygen_proxy_fraction,t_cells,active_t_proxy_fraction,dysfunction_proxy_fraction,stemlike_t_proxy_fraction,terminal_exhausted_t_proxy_fraction,immune_exclusion_index,clonal_diversity,macrophages,mean_macrophage_axis,suppressive_macrophage_fraction,efferocytosed_count,fibroblasts,activated_fibroblast_fraction,mean_caf_exclusion,resistant_fraction,drug_exposure_proxy,matrix_proxy,acute_inflammation_proxy,chronic_inflammation_pressure_proxy,perfusion_heterogeneity_proxy,angiogenic_support_proxy,system_cost_proxy,cumulative_kills'];
-  for (const metrics of snapshot.history) {
+  for (const metrics of history) {
     rows.push([
       metrics.time.toFixed(3), metrics.cancerCount, metrics.hypoxicFraction.toFixed(5), metrics.tCellCount,
       metrics.activeTCellFraction.toFixed(5), metrics.exhaustedTCellFraction.toFixed(5),
@@ -765,6 +773,8 @@ function renderMapProbe() {
   close.textContent = '×';
   close.addEventListener('click', () => {
     probeSample = null;
+    renderer.keyboardProbe = null;
+    renderer.markDirty();
     renderMapProbe();
     renderMissions();
   });
@@ -817,12 +827,7 @@ function applyValidatedState(state) {
   $('scenarioSelect').value = state.scenarioId;
   $('seedInput').value = state.seed;
   applyParamsToControls(state.params);
-  clearExperimentBaseline(false);
-  interventionKinds.clear();
-  visitedLayers.clear();
-  visitedLayers.add(renderer.layer || 'cells');
-  probeSample = null;
-  renderMapProbe();
+  resetSessionUiState();
   worker.postMessage({ type: 'loadState', state });
   isRunning = false;
   updateRunUI();
@@ -922,6 +927,7 @@ $('lessonSelect').addEventListener('change', renderLesson);
 $('applyLessonBtn').addEventListener('click', applyLesson);
 $('contourToggle').addEventListener('click', () => {
   renderer.showHypoxiaContour = !renderer.showHypoxiaContour;
+  renderer.markDirty();
   $('contourToggle').textContent = `低氧边界：${renderer.showHypoxiaContour ? '开' : '关'}`;
   $('contourToggle').setAttribute('aria-pressed', String(renderer.showHypoxiaContour));
 });
@@ -947,7 +953,7 @@ document.querySelectorAll('[data-export]').forEach((button) => button.addEventLi
   try {
     const kind = button.dataset.export;
     if (kind === 'png') exportPNG();
-    if (kind === 'csv') exportCSV();
+    if (kind === 'csv') await exportCSV();
     if (kind === 'json') await exportJSON();
     if (kind === 'share') await copyShareCode();
     if (kind === 'lab') exportExperimentReport();
@@ -1012,7 +1018,51 @@ function renderTooltip(hit, x, y, width) {
 let dragging = false;
 let lastPoint = null;
 let dragDistance = 0;
+function inspectCanvasAt(x, y) {
+  const hit = renderer.hitTest(x, y);
+  if (hit) {
+    selectedCell = hit;
+    renderer.selectedId = hit.id;
+    renderer.markDirty();
+    renderInspector(hit);
+  } else {
+    clearInspector();
+    probeSample = renderer.sampleAt(x, y);
+    renderMapProbe();
+    renderMissions();
+  }
+}
+
+$('simCanvas').addEventListener('keydown', (event) => {
+  if (!snapshot || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Enter', 'Escape'].includes(event.key)) return;
+  event.preventDefault();
+  if (event.key === 'Escape') {
+    probeSample = null;
+    renderMapProbe();
+    renderer.keyboardProbe = null;
+    renderer.markDirty();
+    clearInspector();
+    return;
+  }
+  const point = renderer.keyboardProbe || { x: Math.floor(snapshot.width / 2), y: Math.floor(snapshot.height / 2) };
+  const step = event.shiftKey ? 5 : 1;
+  if (event.key === 'ArrowLeft') point.x -= step;
+  if (event.key === 'ArrowRight') point.x += step;
+  if (event.key === 'ArrowUp') point.y -= step;
+  if (event.key === 'ArrowDown') point.y += step;
+  point.x = Math.max(0, Math.min(snapshot.width - 1, point.x));
+  point.y = Math.max(0, Math.min(snapshot.height - 1, point.y));
+  renderer.keyboardProbe = point;
+  renderer.markDirty();
+  inspectCanvasAt(renderer.offsetX + point.x * renderer.scale, renderer.offsetY + point.y * renderer.scale);
+});
+$('simCanvas').addEventListener('blur', () => {
+  renderer.keyboardProbe = null;
+  renderer.markDirty();
+});
 $('simCanvas').addEventListener('pointerdown', (event) => {
+  renderer.keyboardProbe = null;
+  renderer.markDirty();
   dragging = true;
   dragDistance = 0;
   lastPoint = { x: event.clientX, y: event.clientY };
@@ -1039,17 +1089,7 @@ $('simCanvas').addEventListener('pointermove', (event) => {
 $('simCanvas').addEventListener('pointerup', (event) => {
   if (dragDistance < 6) {
     const rect = $('simCanvas').getBoundingClientRect();
-    const hit = renderer.hitTest(event.clientX - rect.left, event.clientY - rect.top);
-    if (hit) {
-      selectedCell = hit;
-      renderer.selectedId = hit.id;
-      renderInspector(hit);
-    } else {
-      clearInspector();
-      probeSample = renderer.sampleAt(event.clientX - rect.left, event.clientY - rect.top);
-      renderMapProbe();
-      renderMissions();
-    }
+    inspectCanvasAt(event.clientX - rect.left, event.clientY - rect.top);
   }
   dragging = false;
   lastPoint = null;
@@ -1073,8 +1113,7 @@ resizeObserver.observe($('burdenChart'));
 let frameCount = 0;
 let lastFpsAt = performance.now();
 function renderLoop(now) {
-  renderer.draw();
-  frameCount += 1;
+  if (renderer.draw()) frameCount += 1;
   if (now - lastFpsAt > 700) {
     $('fpsValue').textContent = Math.round(frameCount * 1000 / (now - lastFpsAt));
     frameCount = 0;
