@@ -490,7 +490,7 @@ h3{font-family:var(--type-heading);font-weight:400}
 .glass{background:rgba(255,252,247,.82);border-color:var(--line);box-shadow:none}
 .topbar{border-color:var(--line);box-shadow:none}
 .panel{background:rgba(255,252,247,.82);border-color:var(--line);box-shadow:none}
-.topbar{border-radius:0;position:sticky;top:0}
+.topbar{border-radius:0;position:static}
 .brand-mark{border-radius:0;box-shadow:none;border-color:var(--line-strong)}
 .compact-field select{background:rgba(255,255,255,.46);color:var(--text);border-color:var(--line-strong);border-radius:0}
 .compact-field input{background:rgba(255,255,255,.46);color:var(--text);border-color:var(--line-strong);border-radius:0}
@@ -536,16 +536,16 @@ input[type=range]{background:linear-gradient(90deg,rgba(169,79,49,.7),rgba(169,7
 .brand-mark span{display:none}
 .brand-mark i{display:none}
 
-/* Keep the desktop simulator a compact workbench while isolating a neutral dark canvas. */
+/* 页面自然滚动；画布保持合理高度，参数与结果不再锁在屏幕内部。 */
 @media (min-width:1121px){
-  html{height:100%;overflow:hidden}
-  body{height:100%;overflow:hidden}
-  .app-shell{display:grid;height:100dvh;min-height:0;overflow:hidden}
-  .workspace{height:auto;min-height:0;overflow:hidden}
-  .left-panel{min-height:0;max-height:none;overflow-y:auto}
-  .right-panel{min-height:0;max-height:none;overflow-y:auto}
+  html{height:auto;overflow:auto}
+  body{height:auto;overflow:auto}
+  .app-shell{display:block;height:auto;min-height:100vh;overflow:visible}
+  .workspace{height:auto;min-height:0;overflow:visible;align-items:start}
+  .left-panel{min-height:0;max-height:none;overflow:visible}
+  .right-panel{min-height:0;max-height:none;overflow:visible}
   .center-stage{min-height:0}
-  .stage-card{min-height:0}
+  .stage-card{height:clamp(640px,calc(100dvh - 160px),900px);min-height:0}
 }
 @media (max-width:1120px){
   html{height:auto;overflow:auto}
