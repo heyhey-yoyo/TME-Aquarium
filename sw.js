@@ -1,8 +1,8 @@
-const CACHE = 'tme-aquarium-v1.0.0-09358abc0dd7';
+const CACHE = 'tme-aquarium-v1.0.0-384eca1a9632';
 const ASSETS = [
   './',
   './index.html',
-  './styles.css?v=09358abc0dd7',
+  './styles.css?v=384eca1a9632',
   './manifest.webmanifest',
   './assets/icon.svg',
   './assets/project-mark.svg',

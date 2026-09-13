@@ -49,10 +49,10 @@ button:focus-visible { outline: 2px solid var(--aqua); outline-offset: 2px; }
 input:focus-visible { outline: 2px solid var(--aqua); outline-offset: 2px; }
 select:focus-visible { outline: 2px solid var(--aqua); outline-offset: 2px; }
 select { cursor: pointer; }
-select option { background-color: #0c1d23; color: var(--text); }
-select optgroup { background-color: #0c1d23; color: var(--text); }
+select option { background-color: var(--panel-strong); color: var(--text); }
+select optgroup { background-color: var(--panel-strong); color: var(--text); }
 select option:disabled { color: var(--muted-2); }
-select option:checked { background-color: rgba(91,224,206,.16); color: var(--aqua-2); }
+select option:checked { background-color: var(--bg-2); color: var(--text); }
 .hidden { display: none !important; }
 .glass { border: 1px solid var(--line); backdrop-filter: blur(18px); }
 .app-shell::before { content:""; position: fixed; inset: 0; pointer-events:none; background-size: 32px 32px; mask-image: linear-gradient(to bottom, black, transparent 80%); }
@@ -75,13 +75,13 @@ select option:checked { background-color: rgba(91,224,206,.16); color: var(--aqu
 .compact-field select {
   appearance:none;
   padding-right:30px;
-  background-color:rgba(6,20,26,.92);
+  background-color:var(--panel-strong);
   background-image:linear-gradient(45deg, transparent 50%, var(--muted-2) 50%), linear-gradient(135deg, var(--muted-2) 50%, transparent 50%);
   background-position:calc(100% - 16px) 50%, calc(100% - 11px) 50%;
   background-size:5px 5px, 5px 5px;
   background-repeat:no-repeat;
 }
-.compact-field select:hover { border-color:var(--line-strong); background-color:rgba(9,28,35,.95); }
+.compact-field select:hover { border-color:var(--line-strong); background-color:var(--panel-strong); }
 .compact-field select:focus-visible { border-color:var(--aqua); }
 .seed-field input { font-variant-numeric:tabular-nums; }
 .btn { border:0; cursor:pointer; transition:.2s ease; }
@@ -340,7 +340,7 @@ input[type="range"]::-webkit-slider-thumb { appearance:none; width:16px; height:
 .lesson-picker > span { color:var(--muted-2); font-size:var(--size-small); letter-spacing:.08em; }
 .lesson-picker select {
   width:100%; height:38px; border:1px solid var(--line); border-radius:9px;
-  background-color:rgba(6,20,26,.92); color:var(--text); padding:0 9px 0 10px; font-size:var(--size-control);
+  background-color:var(--panel-strong); color:var(--text); padding:0 9px 0 10px; font-size:var(--size-control);
   appearance:none; padding-right:30px; cursor:pointer;
   background-image:linear-gradient(45deg, transparent 50%, var(--muted-2) 50%), linear-gradient(135deg, var(--muted-2) 50%, transparent 50%);
   background-position:calc(100% - 16px) 50%, calc(100% - 11px) 50%;
@@ -499,7 +499,7 @@ h3{font-family:var(--type-heading);font-weight:400}
 .btn.primary{background:var(--aqua);color:var(--bg)}
 .btn.ghost{background:transparent;border-color:var(--line-strong);color:var(--text)}
 .icon-btn{background:transparent;border-color:var(--line-strong);color:var(--text)}
-.workspace{height:auto;min-height:0;grid-template-columns:310px minmax(520px,1fr) 340px;gap:18px;padding:24px clamp(16px,4vw,56px) 56px}
+.workspace{height:auto;min-height:0;grid-template-columns:clamp(230px,22vw,310px) minmax(0,1fr) clamp(250px,23vw,340px);gap:18px;padding:24px clamp(16px,4vw,56px) 56px}
 .panel-heading h2{font-weight:400}
 .control-section{border-color:var(--line)}
 .treatment-card{background:rgba(235,228,216,.68);border-color:var(--line);border-radius:0;box-shadow:none}
@@ -511,8 +511,8 @@ h3{font-family:var(--type-heading);font-weight:400}
 .center-stage{background:transparent}
 .canvas-wrap{border-radius:0}
 input[type=range]{background:linear-gradient(90deg,rgba(169,79,49,.7),rgba(169,79,49,.18))}
-@media(max-width:1120px){.workspace{grid-template-columns:1fr}.left-panel{max-height:none;overflow:visible}.right-panel{max-height:none;overflow:visible}.center-stage{order:-1}}
-@media(max-width:760px){.scenario-strip{flex-wrap:wrap}.run-controls{flex-wrap:wrap}.topbar{align-items:flex-start}.workspace{padding-inline:16px}.brand-mark{width:40px;height:40px}}
+@media(max-width:1120px){.stage-card{min-height:720px}.workspace{grid-template-columns:1fr}.left-panel{max-height:none;overflow:visible}.right-panel{max-height:none;overflow:visible}.center-stage{order:-1}}
+@media(max-width:760px){.stage-card{min-height:650px}.scenario-strip{flex-wrap:wrap}.run-controls{flex-wrap:wrap}.topbar{align-items:flex-start}.workspace{padding-inline:16px}.brand-mark{width:40px;height:40px}}
 .topbar{grid-template-columns:minmax(0,240px) minmax(0,350px) minmax(0,1fr) auto}
 .compact-field select{width:180px}.seed-field input{width:145px}
 .run-controls .primary{min-width:110px}.run-controls .btn{padding-inline:12px;white-space:nowrap}.speed-control button{min-width:36px}
@@ -536,20 +536,20 @@ input[type=range]{background:linear-gradient(90deg,rgba(169,79,49,.7),rgba(169,7
 .brand-mark span{display:none}
 .brand-mark i{display:none}
 
-/* 页面自然滚动；画布保持合理高度，参数与结果不再锁在屏幕内部。 */
+/* 页眉随页面滚动；工作台各列按可用高度阅读。 */
 @media (min-width:1121px){
   html{height:auto;overflow:auto}
-  body{height:auto;overflow:auto}
+  body{height:auto;overflow:visible}
   .app-shell{display:block;height:auto;min-height:100vh;overflow:visible}
   .workspace{height:auto;min-height:0;overflow:visible;align-items:start}
-  .left-panel{min-height:0;max-height:none;overflow:visible}
-  .right-panel{min-height:0;max-height:none;overflow:visible}
+  .left-panel{min-height:0;max-height:calc(100dvh - 32px);overflow:auto;position:sticky;top:16px}
+  .right-panel{min-height:0;max-height:calc(100dvh - 32px);overflow:auto;position:sticky;top:16px}
   .center-stage{min-height:0}
-  .stage-card{height:clamp(640px,calc(100dvh - 160px),900px);min-height:0}
+  .stage-card{height:min(740px,calc(100dvh - 200px));min-height:0}
 }
 @media (max-width:1120px){
   html{height:auto;overflow:auto}
-  body{height:auto;overflow:auto}
+  body{height:auto;overflow:visible}
   .app-shell{display:block;height:auto;min-height:100vh;overflow:visible}
   .workspace{overflow:visible}
 }
@@ -590,7 +590,7 @@ body{font-family:var(--type-body);font-size:var(--size-body);line-height:1.6}
 .topbar :is(a,button):not(.brand):not(.brand-v9){font-family:var(--type-body);font-size:15px;line-height:1.5}
 @media(max-width:640px){.topbar{min-height:64px;gap:12px;padding:11px 16px;flex-wrap:wrap}.topbar .brand{font-size:16px}.topbar .brand-mark{width:40px;height:40px;flex-basis:40px}.topbar :is(a,button):not(.brand):not(.brand-v9){font-size:14px}}
 
-.simulation-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px var(--brand-pad);border-bottom:1px solid var(--line);background:var(--bg)}.simulation-toolbar .scenario-strip{flex:1;max-width:420px}.simulation-toolbar .top-actions{display:flex;flex-wrap:wrap;gap:6px}.simulation-toolbar .top-actions .icon-btn{padding-inline:9px}.header-controls-link{color:var(--brand-muted);white-space:nowrap}.topbar .brand-wrap{min-width:0}.topbar .brand{white-space:normal}
+.simulation-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px var(--brand-pad);border-bottom:1px solid var(--line);background:var(--bg)}.simulation-toolbar .scenario-strip{flex:1;max-width:420px}.simulation-toolbar .top-actions{display:flex;flex-wrap:wrap;gap:6px}.simulation-toolbar .top-actions .icon-btn{padding-inline:9px}.topbar .brand-wrap{min-width:0}.topbar .brand{white-space:normal}
 @media(min-width:1121px){.app-shell{grid-template-rows:auto auto minmax(0,1fr)}}
 @media(max-width:1120px){.simulation-toolbar{flex-wrap:wrap}.simulation-toolbar .top-actions{width:100%;justify-content:flex-end}}
 @media(max-width:640px){.simulation-toolbar{display:grid;grid-template-columns:minmax(0,1fr);padding:12px 16px}.simulation-toolbar .scenario-strip{max-width:none}.simulation-toolbar .top-actions{justify-content:flex-start}.topbar{grid-template-columns:none}}
@@ -599,4 +599,7 @@ body{font-family:var(--type-body);font-size:var(--size-body);line-height:1.6}
 
 .map-badge span{color:#eee7dc}
 
-.topbar > :last-child{margin-left:auto}
+@media(min-width:1121px){
+  .center-stage{position:sticky;top:16px}
+  .left-panel,.right-panel{scrollbar-color:var(--line-strong) transparent;overscroll-behavior-y:contain}
+}

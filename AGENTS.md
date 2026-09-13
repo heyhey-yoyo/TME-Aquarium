@@ -94,7 +94,7 @@ npm run verify
 
 ### 存档与兼容性
 
-- 当前存档格式：`SAVE_VERSION = 3`（`MODEL_VERSION = '1.0.0'`）。
+- 当前存档格式：`SAVE_VERSION = 3`（`MODEL_VERSION = '1.0.0'`）——均为内部存档格式与科学模型标识，与对外 Release 版本号无关。
 - 存档大小上限：`MAX_SAVE_BYTES = 8 MiB`。
 - `validateAndMigrateState` 负责从 v1/v2 迁移到 v3；**修改状态结构时，必须同时提供迁移逻辑并更新 `tests/`**。
 - 状态中的实体数组、坐标、id、事件与历史长度均有上限（`ENTITY_LIMITS`），防止恶意存档导致内存问题。
@@ -127,6 +127,8 @@ npm run verify
 
 ### 交互与数据约束
 
+宽度大于 1120px 时左右面板使用 sticky 与独立 overflow-y:auto，最大高度为 100dvh − 32px，overscroll-behavior-y:contain 阻止列尾滚动传递给整页；中间工作台 sticky top:16px，高度随视口适配。侧栏可获得键盘焦点；窄屏使用自然单列布局。页眉仅显示品牌；模拟控制位于独立工具栏，select、option、optgroup 使用浅色令牌。
+
 时间轴行使用 auto，事件卡标题可换行，不能固定为 100px 高。重开与载入重置 clearedBeforeEventId；键盘和鼠标复用 inspectCanvasAt，准星仅为渲染状态，重置、失焦或清除时移除。存档允许巨噬细胞入口生成的 y≥-0.4 抖动，保留原坐标和后续轨迹，不放宽其他无效数据。样式 URL、SW 预缓存和缓存名同步。
 
 ### 界面维护约定
@@ -157,6 +159,8 @@ npm run verify
 ## 标志维护约定
 
 项目标志采用统一的深灰方章、米白线条与赤陶色识别点；favicon 与 PWA 图标使用 `assets/project-mark.svg`，页眉标志为其 CSS 复刻（`.brand-mark`），视觉保持一致。后续替换必须保持原标志容器宽高，不得借机改变页眉、网格或页面布局。
+
+---
 
 ## AI 维护提醒
 

@@ -8,7 +8,7 @@
   <title>肿瘤微环境生态模拟器</title>
   <link rel="icon" href="./assets/project-mark.svg" type="image/svg+xml" />
   <link rel="manifest" href="./manifest.webmanifest" />
-  <link rel="stylesheet" href="./styles.css?v=09358abc0dd7" />
+  <link rel="stylesheet" href="./styles.css?v=384eca1a9632" />
 </head>
 <body>
   <noscript>此应用需要 JavaScript 才能运行。</noscript>
@@ -21,7 +21,7 @@
           <div class="brand-sub">TME Aquarium</div>
         </div>
       </div>
-<a class="header-controls-link" href="#simulationControls">模拟控制</a>
+
 </header>
 <section class="simulation-toolbar" id="simulationControls" aria-label="模拟控制选项">
 <div class="scenario-strip">
@@ -54,8 +54,8 @@
       </div>
 </section>
 
-    <main class="workspace">
-      <aside class="left-panel panel glass" aria-label="控制面板">
+    <main class="workspace" id="workspace">
+      <aside id="controlPanel" class="left-panel panel glass" tabindex="0" aria-label="控制面板">
         <div class="panel-heading">
           <div>
             <span class="eyebrow">SANDBOX CONTROLS</span>
@@ -181,7 +181,7 @@
         </div>
       </aside>
 
-      <section class="center-stage" aria-label="生态模拟区">
+      <section id="simulationStage" class="center-stage" aria-label="生态模拟区">
         <div class="stage-card glass">
           <div class="stage-toolbar">
             <div>
@@ -228,7 +228,7 @@
         </div>
       </section>
 
-      <aside class="right-panel panel glass" aria-label="指标与图层">
+      <aside id="insightPanel" class="right-panel panel glass" tabindex="0" aria-label="指标与图层">
         <div class="panel-heading compact">
           <div><span class="eyebrow">LIVE READOUT</span><h2>生态指标</h2></div>
           <span id="snapshotAge" class="snapshot-age">实时</span>
