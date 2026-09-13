@@ -12,7 +12,7 @@ TME Aquarium 是一个离线优先、可复现的肿瘤微环境（TME）机制�
 
 - 纯浏览器端 ES Module，**零第三方运行时依赖**；`package.json` 仅用于脚本命令。
 - 模拟逻辑运行在 Web Worker（`src/simulation.worker.js`）中，主线程只做渲染与 UI。
-- 无需构建步骤。直接用 `file://` 打开 `index.html` 时 Worker/PWA 可能受限（本地预览命令见「运行与构建」）。
+- 无需构建步骤，但必须通过 HTTP 服务预览；`file://` 会阻止外部 ES Module 主入口加载，无法初始化交互和模拟。
 
 ## 项目结构
 
@@ -38,11 +38,12 @@ TME Aquarium 是一个离线优先、可复现的肿瘤微环境（TME）机制�
 | `manifest.webmanifest` | PWA 清单 |
 | `_headers` | Cloudflare Pages 安全响应头（严格 CSP 等） |
 | `assets/` | `icon.svg` 与 `project-mark.svg`（favicon 与 PWA 图标） |
-| `tests/` | Node 单元测试（3 个文件） |
+| `tests/` | Node 单元测试，含存档往返与入口边缘坐标回归 |
 | `docs/` | 证据登记与参考文献 CSV、`references.bib`、场景校准审计文档 |
 | `package.json` | npm 脚本（无运行时依赖） |
 | `CHANGELOG_v1.0.md` / `SCIENCE_MODEL_NOTES_v1.0_zh-CN.md` / `UPGRADE_GUIDE_v1.0_zh-CN.md` | 变更记录、科学模型说明与升级指南 |
-| `RELEASE_MANIFEST.txt` | 发布清单 |
+| `docs/releases/` | 发布清单操作说明与按版本归档的历史清单 |
+| `scripts/release-manifest.mjs` | 从干净的最终提交对应的 tracked 文件生成仓库外 SHA-256 清单 |
 | `LICENSE` | MIT 许可证 |
 
 ### 关键数据流
@@ -58,7 +59,7 @@ app.js <--postMessage(snapshot)-- worker <-- Simulation.snapshot()
 
 ## 运行与构建
 
-无需构建步骤。`npm start` 本地预览（端口 4173），也可手动 `python -m http.server 4173`。
+无需构建步骤。`npm start` 调用 Python HTTP 服务，需要 Node.js 20+ 和 Python 3（`python3` 命令可用）；也可只安装 Python 3 后直接运行 `python -m http.server 4173`，访问 `http://localhost:4173`。
 
 ## 测试
 
@@ -83,6 +84,8 @@ npm run verify
 
 ## 代码组织与风格约定
 
+应用发布版本取 `package.json`，同步 `sw.js` 缓存名并由发布清单读取；`src/state.js` 的 `MODEL_VERSION` 与 `SAVE_VERSION` 独立维护，不因应用补丁而修改。
+
 ### 模型核心概念
 
 - 网格：`96 × 60`（见 `state.js` 的 `GRID_WIDTH` / `GRID_HEIGHT`）。
@@ -90,6 +93,7 @@ npm run verify
 - 细胞主体：`cancer / tCells / macrophages / fibroblasts / debris / vessels`，坐标 `x,y`。
 - T 细胞三维状态：`stemlike`（前体样）、`terminalExhaustion`（终末耗竭样）、`exhaustion`（总功能障碍）——均为连续代理变量，**不要**把它们当流式分群比例。
 - 克隆（`CLONES`）：敏感型 / 耐药型 / 缺氧型，决定增殖、耐药、缺氧耐受与免疫逃逸差异。
+- 指标解释以 `computeMetrics` 为准：免疫排斥为基质、抑制及 CAF 加权代理，灌注异质性字段使用氧场标准差，坏死碎片比例以全部碎片为分母。巨噬细胞炎症信号调节状态，不提供直接移动方向；证据面板区分凋亡与坏死清除。`state.history` 最多保留 720 个记录点，CSV 只导出当前窗口，长实验需分段保存。
 - 指标：`cancerCount`、`hypoxicFraction`、`clonalDiversity`、`immuneExclusionIndex`、`terminalExhaustedTCellFraction`、`averageChronicInflammation`、`macrophageCount`、`fibroblastCount` 等（见 `simulation.js` 的 `computeMetrics`）。
 
 ### 存档与兼容性
@@ -140,6 +144,8 @@ npm run verify
 修改已缓存的 CSS/JavaScript 时也必须递增 `sw.js` 的 `CACHE` 名，避免旧界面继续命中缓存。
 
 ## 部署
+
+发布前运行项目验证命令，提交并固定最终源码，再执行 `npm run release:manifest -- <仓库外的清单.json>`。输出父目录须已存在，清单对应本地实际文件字节；生成器拒绝脏工作区、仓库内输出和覆盖已有文件，不宣称执行了测试。操作与历史记录见 [发布清单说明](./docs/releases/README.md)。
 
 部署到 Cloudflare Pages：无需构建，输出目录为仓库根目录；`_headers` 会被自动读取。
 

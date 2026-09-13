@@ -1,6 +1,6 @@
 {
   "name": "tme-aquarium",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "description": "离线优先的肿瘤微环境机制教学与实验平台",
@@ -10,7 +10,8 @@
     "audit": "node scripts/scenario-audit.mjs",
     "check": "node scripts/static-audit.mjs",
     "verify": "npm run evidence && npm test && npm run audit && npm run check",
-    "evidence": "node scripts/export-evidence.mjs"
+    "evidence": "node scripts/export-evidence.mjs",
+    "release:manifest": "node scripts/release-manifest.mjs"
   },
   "engines": {
     "node": ">=20"
