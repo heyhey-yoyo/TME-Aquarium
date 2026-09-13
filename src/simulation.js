@@ -1,6 +1,6 @@
-import { RNG } from './rng.js';
-import { CLONES, getScenario } from './scenarios.js';
-import { MODEL_VERSION, validateAndMigrateState, validateParams, validateSimulationConfig } from './state.js';
+import { RNG } from './rng.js?v=1.0.1-upgrade-2';
+import { CLONES, getScenario } from './scenarios.js?v=1.0.1-upgrade-2';
+import { MODEL_VERSION, validateAndMigrateState, validateParams, validateSimulationConfig } from './state.js?v=1.0.1-upgrade-2';
 
 const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
 const idx = (x, y, w) => y * w + x;

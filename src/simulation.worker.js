@@ -1,5 +1,5 @@
-import { Simulation } from './simulation.js';
-import { validateAndMigrateState, validateParams, validateSimulationConfig } from './state.js';
+import { Simulation } from './simulation.js?v=1.0.1-upgrade-2';
+import { validateAndMigrateState, validateParams, validateSimulationConfig } from './state.js?v=1.0.1-upgrade-2';
 
 let simulation = null;
 let running = false;

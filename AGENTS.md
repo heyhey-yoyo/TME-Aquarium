@@ -145,6 +145,8 @@ npm run verify
 
 ## 部署
 
+发布缓存修订必须贯穿 HTML 脚本、深层模块引用、Worker/importScripts 与 SW 预缓存。固定地址资源返回 no-cache，SW 安装以 Request.cache=reload 获取资源。资源缓存修订独立于应用/模型/schema，不改科学算法；缓存回归检查整条依赖链，不能只检查入口查询参数。
+
 发布前运行项目验证命令，提交并固定最终源码，再执行 `npm run release:manifest -- <仓库外的清单.json>`。输出父目录须已存在，清单对应本地实际文件字节；生成器拒绝脏工作区、仓库内输出和覆盖已有文件，不宣称执行了测试。操作与历史记录见 [发布清单说明](./docs/releases/README.md)。
 
 部署到 Cloudflare Pages：无需构建，输出目录为仓库根目录；`_headers` 会被自动读取。

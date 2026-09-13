@@ -1,4 +1,4 @@
-import { SCENARIOS, getScenario } from './scenarios.js';
+import { SCENARIOS, getScenario } from './scenarios.js?v=1.0.1-upgrade-2';
 
 export const SAVE_VERSION = 3;
 export const MODEL_VERSION = '1.0.0';

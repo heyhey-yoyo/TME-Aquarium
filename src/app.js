@@ -1,12 +1,12 @@
-import { scenarioList, getScenario, CLONES } from './scenarios.js';
-import { makeShareCode } from './rng.js';
-import { AquariumRenderer } from './renderer.js';
-import { drawBurdenChart, drawSparkline } from './charts.js';
-import { MECHANISMS, REFERENCES, referenceById, pubmedUrl } from './evidence.js';
-import { MAX_SAVE_BYTES, parseAndValidateStateText } from './state.js';
+import { scenarioList, getScenario, CLONES } from './scenarios.js?v=1.0.1-upgrade-2';
+import { makeShareCode } from './rng.js?v=1.0.1-upgrade-2';
+import { AquariumRenderer } from './renderer.js?v=1.0.1-upgrade-2';
+import { drawBurdenChart, drawSparkline } from './charts.js?v=1.0.1-upgrade-2';
+import { MECHANISMS, REFERENCES, referenceById, pubmedUrl } from './evidence.js?v=1.0.1-upgrade-2';
+import { MAX_SAVE_BYTES, parseAndValidateStateText } from './state.js?v=1.0.1-upgrade-2';
 
 const $ = (id) => document.getElementById(id);
-const worker = new Worker(new URL('./simulation.worker.js', import.meta.url), { type: 'module' });
+const worker = new Worker(new URL('./simulation.worker.js?v=1.0.1-upgrade-2', import.meta.url), { type: 'module' });
 const renderer = new AquariumRenderer($('simCanvas'));
 
 let snapshot = null;
