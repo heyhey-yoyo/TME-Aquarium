@@ -39,12 +39,14 @@ TME Aquarium 是一个离线优先、可复现的肿瘤微环境（TME）机制�
 | `_headers` | Cloudflare Pages 安全响应头（严格 CSP 等） |
 | `assets/` | `icon.svg` 与 `project-mark.svg`（favicon 与 PWA 图标） |
 | `tests/` | Node 单元测试，含存档往返与入口边缘坐标回归 |
-| `docs/` | 证据登记与参考文献 CSV、`references.bib`、场景校准审计文档 |
+| `docs/` | 证据登记与参考文献 CSV、`references.bib`、场景校准审计文档、`验证报告_v1.0.md` 与 `legacy-v1.1.1/` 历史审查归档 |
 | `package.json` | npm 脚本（无运行时依赖） |
 | `CHANGELOG_v1.0.md` / `SCIENCE_MODEL_NOTES_v1.0_zh-CN.md` / `UPGRADE_GUIDE_v1.0_zh-CN.md` | 变更记录、科学模型说明与升级指南 |
 | `docs/releases/` | 发布清单操作说明与按版本归档的历史清单 |
 | `scripts/release-manifest.mjs` | 从干净的最终提交对应的 tracked 文件生成仓库外 SHA-256 清单 |
 | `LICENSE` | MIT 许可证 |
+| `.gitignore` | Git 忽略规则 |
+| `README.md` / `AGENTS.md` | 用户向项目说明与 AI 代理维护说明 |
 
 ### 关键数据流
 
@@ -115,7 +117,7 @@ npm run verify
 
 - `src/evidence.js`（机制登记 + 参考文献 `REFERENCES`）
 - `docs/机制证据登记_v1.0.csv`、`docs/参考文献_v1.0.csv`、`docs/references.bib`（用 `npm run evidence` 重新生成）
-- 相关教学文档（`README.md`、`CHANGELOG_v1.0.md`、`SCIENCE_MODEL_NOTES_v1.0_zh-CN.md`）
+- 相关教学文档（[README.md](./README.md)、`CHANGELOG_v1.0.md`、`SCIENCE_MODEL_NOTES_v1.0_zh-CN.md`）
 
 ### 品牌与排版
 
@@ -145,7 +147,7 @@ npm run verify
 
 ## 部署
 
-发布缓存修订必须贯穿 HTML 脚本、深层模块引用、Worker/importScripts 与 SW 预缓存。_headers 请求使用 no-cache；托管平台可能覆盖响应缓存期限，发布仍须同步整条依赖链的资源地址并核对线上字节。SW 安装以 Request.cache=reload 获取资源。资源缓存修订独立于应用/模型/schema，不改科学算法；缓存回归检查整条依赖链，不能只检查入口查询参数。
+发布缓存修订必须贯穿 HTML 脚本、深层模块引用、Worker/importScripts 与 SW 预缓存。`_headers` 对 `/index.html`、`/styles.css`、`/src/*`、`/assets/*`、`/sw.js`、`/manifest.webmanifest` 设置 `Cache-Control: no-cache`（站点根路径请求不在覆盖内）；托管平台可能覆盖响应缓存期限，发布仍须同步整条依赖链的资源地址并核对线上字节。SW 安装以 Request.cache=reload 获取资源。资源缓存修订独立于应用/模型/schema，不改科学算法；缓存回归检查整条依赖链，不能只检查入口查询参数。
 
 发布前运行项目验证命令，提交并固定最终源码，再执行 `npm run release:manifest -- <仓库外的清单.json>`。输出父目录须已存在，清单对应本地实际文件字节；生成器拒绝脏工作区、仓库内输出和覆盖已有文件，不宣称执行了测试。操作与历史记录见 [发布清单说明](./docs/releases/README.md)。
 
