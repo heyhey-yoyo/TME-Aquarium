@@ -95,7 +95,7 @@ npm run verify
 - 细胞主体：`cancer / tCells / macrophages / fibroblasts / debris / vessels`，坐标 `x,y`。
 - T 细胞三维状态：`stemlike`（前体样）、`terminalExhaustion`（终末耗竭样）、`exhaustion`（总功能障碍）——均为连续代理变量，**不要**把它们当流式分群比例。
 - 克隆（`CLONES`）：敏感型 / 耐药型 / 缺氧型，决定增殖、耐药、缺氧耐受与免疫逃逸差异。
-- 指标解释以 `computeMetrics` 为准：免疫排斥为基质、抑制及 CAF 加权代理，灌注异质性字段使用氧场标准差，坏死碎片比例以全部碎片为分母。巨噬细胞炎症信号调节状态，不提供直接移动方向；证据面板区分凋亡与坏死清除。`state.history` 最多保留 720 个记录点，CSV 只导出当前窗口，长实验需分段保存。
+- 指标解释以 `computeMetrics` 为准：免疫排斥为基质、抑制及 CAF 加权代理，灌注异质性字段使用氧场标准差，坏死碎片比例以全部碎片为分母。巨噬细胞炎症信号调节状态，不提供直接移动方向；证据面板区分凋亡与坏死清除。`state.history` 在新运行时滚动保留 720 个记录点；导入的存档最多可含 1000 点且恢复时不截断，CSV 按恢复后的完整记录导出，长实验需分段保存。
 - 指标：`cancerCount`、`hypoxicFraction`、`clonalDiversity`、`immuneExclusionIndex`、`terminalExhaustedTCellFraction`、`averageChronicInflammation`、`macrophageCount`、`fibroblastCount` 等（见 `simulation.js` 的 `computeMetrics`）。
 
 ### 存档与兼容性
@@ -139,7 +139,7 @@ npm run verify
 
 ### 界面维护约定
 
-工作台使用 `ydchen-portfolio` 的米白 / 赤陶色视觉系统（页面底色 `#f3eee5`、正文 `#24221f`、赤陶强调 `#a94f31`，不再保留额外 QA 覆盖层）；模拟画布保持深色独立令牌。视觉调整不得改变空间模拟、画布语义、存档迁移、证据登记、Service Worker 清单或 CSP。
+工作台使用 `ydchen-portfolio` 的米白 / 赤陶色视觉系统（页面底色 `#f3eee5`、正文 `#24221f`、赤陶强调 `#a94f31`，不含额外 QA 覆盖层）；模拟画布保持深色独立令牌。视觉调整不得改变空间模拟、画布语义、存档迁移、证据登记、Service Worker 清单或 CSP。
 
 视觉验收需保持正文 16px、操作标签不小于 12px，深色画布使用独立高对比度令牌，并在 1440px 桌面与 390px 手机视口检查全局横向溢出。
 
