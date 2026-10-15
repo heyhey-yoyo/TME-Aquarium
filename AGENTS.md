@@ -28,7 +28,7 @@ TME Aquarium 是一个离线优先、可复现的肿瘤微环境（TME）机制�
 | `src/scenarios.js` | `CLONES`（克隆定义）与 `SCENARIOS`（六场景） |
 | `src/rng.js` | 确定性 RNG（`RNG` / `hashSeed` / `makeShareCode`） |
 | `src/renderer.js` | Canvas 绘制、图层、空间探针、图例 |
-| `src/charts.js` | 负荷曲线与指标迷你图（Canvas 自绘，无图表库） |
+| `src/charts.js` | 负荷曲线（Canvas 自绘）与指标迷你图（SVG，无图表库） |
 | `src/evidence.js` | `REFERENCES` + `MECHANISMS` 证据登记 |
 | `src/app.js` | UI 控制器、实验工作台、研究任务、导入导出 |
 | `scripts/static-audit.mjs` | HTML/JS/Service Worker 完整性审计 |
@@ -37,7 +37,7 @@ TME Aquarium 是一个离线优先、可复现的肿瘤微环境（TME）机制�
 | `sw.js` | Service Worker：离线预缓存清单 `ASSETS` 与 `CACHE` 版本名 |
 | `manifest.webmanifest` | PWA 清单 |
 | `_headers` | Cloudflare Pages 安全响应头（严格 CSP 等） |
-| `assets/` | `icon.svg` 与 `project-mark.svg`（favicon 与 PWA 图标） |
+| `assets/` | `project-mark.svg`（favicon 与 PWA 图标）与 `icon.svg`（Service Worker 预缓存保留资源） |
 | `tests/` | Node 单元测试，含存档往返与入口边缘坐标回归 |
 | `docs/` | 证据登记与参考文献 CSV、`references.bib`、场景校准审计文档、`验证报告_v1.0.md` 与 `legacy-v1.1.1/` 历史审查归档 |
 | `package.json` | npm 脚本（无运行时依赖） |
